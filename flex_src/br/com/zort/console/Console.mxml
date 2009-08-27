@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.5" horizontalAlign="center"
+	horizontalGap="0" verticalAlign="bottom" verticalGap="0"
+	xmlns:console="br.com.zort.console.*">
+	<mx:Metadata>
+		[Event(name="typeText",type="br.com.zort.console.event.ConsoleEvent")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Person;
+			import br.com.zort.console.event.ConsoleEvent;
+			import mx.collections.ArrayCollection;
+
+			public var person:Person;
+
+			[Bindable]
+			private var consoleProvider:ArrayCollection = new ArrayCollection();
+
+			private function openClose():void
+			{
+				lstConsole.openClose();
+			}
+
+			private function enterConsole():void
+			{
+				addMessage(person, txtConsole.text);
+				dispatchEvent(new ConsoleEvent(ConsoleEvent.TYPE_TEXT, txtConsole.text));
+				txtConsole.text = "";
+			}
+
+			public function addMessage(person:Person, message:String):void
+			{
+				var messageFinal:String = person.name + ': ' + message;
+				consoleProvider.addItem({label: messageFinal});
+			}
+		]]>
+	</mx:Script>
+	<mx:Button label="close/open"
+		click="openClose()"/>
+	<console:ListUpsidedown id="lstConsole" dataProvider="{consoleProvider}" height="100%"
+		labelField="label" width="100%"/>
+	<mx:TextInput id="txtConsole" maxChars="40" width="100%"
+		enter="enterConsole()"/>
+</mx:Box>

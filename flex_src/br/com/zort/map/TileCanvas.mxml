@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.MapTile;
+			public var tile:MapTile;
+		]]>
+	</mx:Script>
+
+</mx:Canvas>

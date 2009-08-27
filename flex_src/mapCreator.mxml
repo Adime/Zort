@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"
+	creationComplete="onCreationComplete(event)" xmlns:mapa="br.com.zort.map.*">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Tile;
+			import br.com.zort.model.MapTile;
+			import br.com.zort.model.Map;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.TileService;
+			import mx.events.FlexEvent;
+			import br.com.zort.service.MapService;
+			import mx.controls.Alert;
+			import mx.events.ValidationResultEvent;
+			import mx.validators.Validator;
+			import mx.controls.Image;
+			import mx.core.DragSource;
+			import mx.managers.DragManager;
+
+			[Bindable]
+			private var tiles:ArrayCollection;
+
+			private function onCreationComplete(event:FlexEvent):void
+			{
+				new TileService(onListTile).getAllTiles();
+			}
+
+			private function onListTile(event:ResultEvent):void
+			{
+				tiles = ArrayCollection(event.result);
+			}
+
+			private function onMouseDown(event:MouseEvent):void
+			{
+				if(tileList.selectedItem)
+				{
+					var ds:DragSource = new DragSource();
+					ds.addData(tileList.selectedItem, "items");
+
+					var dragProxy:Image = new Image();
+					dragProxy.source = tileList.selectedItem.source;
+
+					DragManager.doDrag(event.currentTarget as List, ds, event, dragProxy);
+				}
+			}
+
+			private function gerar():void
+			{
+
+				var validatorArr:Array = new Array();
+				validatorArr.push(qtXValidator);
+				validatorArr.push(qtYValidator);
+				validatorArr.push(identifierValidator);
+				var validatorErrorArray:Array = Validator.validateAll(validatorArr);
+				var isValidForm:Boolean = validatorErrorArray.length == 0;
+				if(isValidForm)
+				{
+					holder.map = Map.generateMap(identifier.text, qtX.value, qtY.value);
+				}
+				else
+				{
+					var err:ValidationResultEvent;
+					var errorMessageArray:Array = [];
+					for each(err in validatorErrorArray)
+					{
+						var errField:String = FormItem(err.currentTarget.source.parent).label
+						errorMessageArray.push(errField + ": " + err.message);
+					}
+					Alert.show(errorMessageArray.join("\n"), "Erro", Alert.OK);
+				}
+			}
+
+			private function saveMap():void
+			{
+				if(holder.map)
+				{
+					new MapService(onSave).addOrUpdate(holder.map);
+				}
+			}
+
+			private function onSave(event:ResultEvent):void
+			{
+				Alert.show("Map Saved", "MapCreator");
+			}
+		]]>
+	</mx:Script>
+
+	<mx:NumberValidator id="qtXValidator" source="{qtX}"
+		minValue="1" property="value" lowerThanMinError="Valor deve ser maior ou igual a 1."/>
+	<mx:NumberValidator id="qtYValidator" source="{qtY}"
+		minValue="1" property="value" lowerThanMinError="Valor deve ser maior ou igual a 1."/>
+	<mx:StringValidator id="identifierValidator" source="{identifier}"
+		minLength="5" property="text" requiredFieldError="Campo requerido"
+		tooShortError="Nome deve conter mais de 4 caracteres."/>
+
+	<mx:Zoom id="zoom" target="{holder}" zoomHeightFrom="{holder.scaleY}"
+		zoomWidthFrom="{holder.scaleY}" originX="0" originY="0"/>
+
+	<mx:HBox height="100%" width="100%" paddingBottom="3" paddingRight="3">
+
+		<mx:Panel height="100%" layout="vertical" width="30%"
+			title="Tiles">
+			<mx:Form>
+				<mx:FormItem label="Nome:"
+					required="true">
+					<mx:TextInput id="identifier"/>
+				</mx:FormItem>
+				<mx:FormItem label="Quantidade Largura:"
+					required="true">
+					<mx:NumericStepper id="qtX" maximum="100"/>
+				</mx:FormItem>
+				<mx:FormItem label="Quantidade Altura:"
+					required="true">
+					<mx:NumericStepper id="qtY" maximum="100"/>
+				</mx:FormItem>
+				<mx:FormItem>
+					<mx:Button label="Gerar"
+						click="gerar();"/>
+				</mx:FormItem>
+			</mx:Form>
+			<mx:CheckBox id="teleport" label="Teleport"/>
+			<mx:List id="tileList" dataProvider="{tiles}" height="100%" width="100%"
+				mouseDown="onMouseDown(event)" rowHeight="30">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:HBox width="100%" paddingRight="5">
+							<mx:Script>
+								<![CDATA[
+									import br.com.zort.assets.Assets;
+								]]>
+							</mx:Script>
+							<mx:Image source="{Assets.getTileImage(data.source)}"/>
+							<mx:Label text="{data.source}"/>
+							<mx:Spacer width="100%"/>
+							<mx:CheckBox enabled="false" selected="{data.isWalkable}"/>
+						</mx:HBox>
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+		</mx:Panel>
+		<mx:Panel height="100%" layout="absolute" width="100%"
+			title="Mapa">
+			<mapa:MapHolderCreator id="holder" isTeleport="{teleport.selected}"
+				selectedTile="{Tile(tileList.selectedItem)}"/>
+			<mx:ControlBar>
+				<mx:Button label="Save"
+					click="saveMap()"/>
+				<mx:Label text="Zoom:"/>
+				<mx:HSlider maximum="2" minimum="0" value="1"
+					change="zoom.zoomHeightTo=zoom.zoomWidthTo=event.value;zoom.play()"/>
+			</mx:ControlBar>
+		</mx:Panel>
+	</mx:HBox>
+</mx:Application>

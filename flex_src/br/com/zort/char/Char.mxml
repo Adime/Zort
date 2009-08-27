@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" clipContent="false">
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Person;
+			import br.com.zort.assets.Assets;
+
+			private var _person:Person;
+			private var timer:Timer = new Timer(2000, 1);
+
+			[Bindable]
+			private var source:String;
+
+			public function set person(v:Person):void
+			{
+				_person = v;
+				source = Assets.getCharImage(v.imageFront);
+			}
+
+			public function get person():Person
+			{
+				return _person;
+			}
+
+			public function changeCharByKeyCode(value:int):void
+			{
+				switch(value)
+				{
+					case 37:
+					{
+						source = Assets.getCharImage(person.imageLeft);
+						break;
+					}
+					case 38:
+					{
+						source = Assets.getCharImage(person.imageBack);
+						break;
+					}
+					case 39:
+					{
+						source = Assets.getCharImage(person.imageRight);
+						break;
+					}
+					case 40:
+					{
+						source = Assets.getCharImage(person.imageFront);
+						break;
+					}
+				}
+			}
+
+			public function setText(value:String):void
+			{
+				charText.text = value;
+				charText.visible = true;
+				timer.stop();
+				timer = new Timer(4000, 1);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimer);
+				timer.start();
+			}
+
+			private function onTimer(event:TimerEvent):void
+			{
+				charText.visible = false;
+			}
+		]]>
+	</mx:Script>
+	<mx:Image id="image" height="100%" source="{source}" width="100%"
+		maintainAspectRatio="false"/>
+	<mx:Text id="charText" y="{-charText.height}" hideEffect="fade" showEffect="fade"
+		visible="false"/>
+</mx:Canvas>

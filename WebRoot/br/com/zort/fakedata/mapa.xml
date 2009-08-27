@@ -1,0 +1,602 @@
+<map definition="Map" squareSize="60" id="null">
+  <tile definition="Tile">
+    <x>0</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>0</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>1</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>2</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>3</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>4</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>5</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>6</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/mato.png</source>
+    <isWalkable>true</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>7</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>8</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>0</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>1</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>2</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>3</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>4</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>5</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>6</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>7</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>8</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+  <tile definition="Tile">
+    <x>9</x>
+    <y>9</y>
+    <source>br/com/zort/assets/tiles/agua.png</source>
+    <isWalkable>false</isWalkable>
+  </tile>
+</map>

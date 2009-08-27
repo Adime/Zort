@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MapHolder xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="br.com.zort.map.*"
+	horizontalScrollPolicy="{isScrollEnable?'on':'off'}"
+	verticalScrollPolicy="{isScrollEnable?'on':'off'}">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import qs.controls.SuperImage;
+			import br.com.zort.assets.Assets;
+			import br.com.zort.model.Tile;
+			import br.com.zort.model.MapTile;
+			import br.com.zort.model.Map;
+			import br.com.zort.helper.StringHelper;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			[Bindable]
+			public var isScrollEnable:Boolean = false;
+			public var selectedTile:Tile;
+			public var isTeleport:Boolean = false;
+			private var targetTeleport:TileCanvas;
+
+			//**********
+			// Methods
+			//**********
+			private function updateTile(tile:Tile, target:TileCanvas):void
+			{
+				if(target.tile.tile.source != tile.source)
+				{
+					var img:SuperImage = new SuperImage();
+					img.width = img.height = map.squareSize;
+					img.maintainAspectRatio = false;
+					img.source = Assets.getTileImage(tile.source);
+
+					target.tile.tile = tile;
+					target.removeAllChildren();
+					target.addChild(img);
+				}
+			}
+
+			//**********
+			//Overrides
+			//**********
+			override public function set map(value:Map):void
+			{
+				_map = value;
+
+				if(value != null)
+				{
+					var arr:Array = value.getTileDisplays(true);
+					image.removeAllChildren();
+
+					for each(var c:TileCanvas in arr)
+					{
+						image.addChild(c);
+						c.buttonMode = true;
+						c.useHandCursor = true;
+						c.addEventListener(DragEvent.DRAG_ENTER, onDragEnter);
+						c.addEventListener(DragEvent.DRAG_DROP, onDragDrop);
+						c.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+						c.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+					}
+				}
+			}
+
+			//******************
+			// events
+			//******************
+			override protected function addedToStageHandler():void
+			{
+
+			}
+
+			private function onMouseOver(event:MouseEvent):void
+			{
+				if(event.buttonDown && !DragManager.isDragging)
+				{
+					var target:TileCanvas = event.currentTarget as TileCanvas;
+					updateTile(selectedTile, target);
+				}
+			}
+
+			private function onMouseDown(event:MouseEvent):void
+			{
+				if(selectedTile != null)
+				{
+					var target:TileCanvas = event.currentTarget as TileCanvas;
+					updateTile(selectedTile, target);
+					if(isTeleport)
+					{
+						var pop:TeleportPopUp = TeleportPopUp(PopUpManager.createPopUp(this, TeleportPopUp, true));
+						PopUpManager.centerPopUp(pop);
+						pop.tile = target.tile;
+					}
+				}
+			}
+
+			private function onDragEnter(event:DragEvent):void
+			{
+				DragManager.acceptDragDrop(event.currentTarget as UIComponent);
+				DragManager.showFeedback(DragManager.COPY);
+			}
+
+			private function onDragDrop(event:DragEvent):void
+			{
+				var target:TileCanvas = event.currentTarget as TileCanvas;
+				var source:Tile = Tile(event.dragSource.dataForFormat("items")[0]);
+				updateTile(source, target);
+			}
+		]]>
+	</mx:Script>
+</MapHolder>

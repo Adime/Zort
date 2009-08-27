@@ -1,0 +1,17 @@
+<root>
+<tile>
+<nome>Agua</nome>
+<src>br/com/zort/assets/tiles/agua.png</src>
+<isWalkable>false</isWalkable>
+</tile>
+<tile>
+<nome>Mato</nome>
+<src>br/com/zort/assets/tiles/mato.png</src>
+<isWalkable>true</isWalkable>
+</tile>
+<tile>
+<nome>Pedra</nome>
+<src>br/com/zort/assets/tiles/pedra.png</src>
+<isWalkable>true</isWalkable>
+</tile>
+</root>

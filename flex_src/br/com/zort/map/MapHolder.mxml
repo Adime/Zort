@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off"
+	verticalScrollPolicy="off"
+	addedToStage="addedToStageHandler()">
+	<mx:Metadata>
+		[Event(name="teleport",type="br.com.zort.map.event.MapEvent")]
+		[Event(name="charDance",type="br.com.zort.map.event.MapEvent")]
+		[Event(name="charMove",type="br.com.zort.map.event.MapEvent")]
+		[Event(name="charInitialize",type="br.com.zort.map.event.MapEvent")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Talk;
+			import br.com.zort.char.Char;
+			import mx.collections.ArrayCollection;
+			import br.com.zort.model.Person;
+			import br.com.zort.map.event.MapEvent;
+			import br.com.zort.model.MapTile;
+			import br.com.zort.model.Tile;
+			import br.com.zort.model.Map;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import br.com.zort.assets.Assets;
+
+			protected var mapFrom:Number = 0;
+			protected var mapTo:Number = 0;
+
+			[Bindable]
+			public var personsCollection:ArrayCollection = new ArrayCollection();
+
+			[Bindable]
+			public var imageX:Number;
+
+			[Bindable]
+			public var imageY:Number;
+
+			[Bindable]
+			protected var _map:Map;
+
+			//*******************
+			// getters and setters
+			//*******************
+			public function set map(value:Map):void
+			{
+				_map = value;
+
+				if(value != null)
+				{
+					var arr:Array = value.getTileDisplays();
+					image.removeAllChildren();
+
+					for each(var c:TileCanvas in arr)
+					{
+						image.addChild(c);
+					}
+					moveMap(map.getTeleportFrom(mapFrom));
+					mapFrom = map.id;
+				}
+			}
+
+			public function get map():Map
+			{
+				return _map;
+			}
+
+			//*********************
+			// methods
+			//*********************
+			private function walkTo(moveX:Number, moveY:Number):void
+			{
+				//Tile destino
+				var tileX:Number = Math.floor((this.width / 2 - moveX) / map.squareSize);
+				var tileY:Number = Math.floor((this.height / 2 - moveY) / map.squareSize);
+				var tile:MapTile = map.getTitle(tileX, tileY);
+
+				if(tile != null && tile.isWalkable())
+				{
+					//Pega mapTo do teleport (default = 0), para usar no effectEnd
+					mapTo = tile.getMapTo();
+					walkX.toValue = moveX;
+					walkY.toValue = moveY;
+					dispatchEvent(new MapEvent(MapEvent.CHAR_MOVE, tile));
+					walkEffect.play();
+				}
+			}
+
+			protected function moveMap(tile:MapTile):void
+			{
+				//move to 0
+				var tempX:Number = (Math.floor(this.width / 2 / map.squareSize) * map.squareSize);
+				var tempY:Number = (Math.floor(this.height / 2 / map.squareSize) * map.squareSize);
+				imageX = tempX - tile.x * map.squareSize;
+				imageY = tempY - tile.y * map.squareSize;
+
+				var e:MapEvent = new MapEvent(MapEvent.CHAR_INITIALIZE, tile);
+				dispatchEvent(e);
+			}
+
+			public function updateCharPosition(map:Map, person:Person, mapTile:MapTile):void
+			{
+				if(this.map != null && this.map.id == map.id)
+				{
+					var c:Char = getCharaByPerson(person);
+					var tileTo:TileCanvas = getTileCanvasByMapTile(mapTile);
+					if(c == null)
+					{
+						var char:Char = new Char();
+						char.height = map.squareSize;
+						char.width = map.squareSize;
+						char.person = person;
+						char.x = tileTo.x;
+						char.y = tileTo.y;
+						personsCollection.addItem(char);
+						image.addChild(char);
+					}
+					else
+					{
+						personToWalk(c, tileTo);
+					}
+				}
+			}
+
+			public function removeChar(person:Person):void
+			{
+				var charFound:Char;
+				for each(var c:Char in personsCollection)
+				{
+					if(c.person.id == person.id)
+					{
+						charFound = c;
+					}
+				}
+				if(charFound != null)
+				{
+					personsCollection.removeItemAt(personsCollection.getItemIndex(charFound));
+					image.removeChild(charFound);
+				}
+			}
+
+			public function showMessage(person:Person, talk:Talk):void
+			{
+				var c:Char = getCharaByPerson(person);
+				if(c != null)
+				{
+					c.setText(talk.message);
+				}
+			}
+
+			private function getCharaByPerson(person:Person):Char
+			{
+				for each(var c:Char in personsCollection)
+				{
+					if(c.person.id == person.id)
+					{
+						return c;
+					}
+				}
+				return null;
+			}
+
+			private function getTileCanvasByMapTile(mapTile:MapTile):TileCanvas
+			{
+				for each(var tc:TileCanvas in image.getChildren())
+				{
+					if(tc.tile.x == mapTile.x && tc.tile.y == mapTile.y)
+					{
+						return tc;
+					}
+				}
+				return null;
+			}
+
+			private function personToWalk(char:Char, tileTo:TileCanvas):void
+			{
+				personWalkX.target = char;
+				personWalkX.fromValue = char.x;
+				personWalkX.toValue = tileTo.x;
+
+				personWalkY.target = char;
+				personWalkY.fromValue = char.y;
+				personWalkY.toValue = tileTo.y;
+
+				if(char.x < tileTo.x)
+				{
+					char.changeCharByKeyCode(39);
+				}
+				if(char.x > tileTo.x)
+				{
+					char.changeCharByKeyCode(37);
+				}
+				if(char.y > tileTo.y)
+				{
+					char.changeCharByKeyCode(38);
+				}
+				if(char.y < tileTo.y)
+				{
+					char.changeCharByKeyCode(40);
+				}
+
+				personWalkEffect.play();
+			}
+
+			//******************
+			// events
+			//******************
+			protected function addedToStageHandler():void
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, onStageKeyDown, true);
+				stage.focus = this;
+			}
+
+			private function onStageKeyDown(event:KeyboardEvent):void
+			{
+				if(!walkEffect.isPlaying && map && event.keyCode >= 37 && event.keyCode <= 40)
+				{
+					var moveX:Number = image.x;
+					var moveY:Number = image.y;
+
+					switch(event.keyCode)
+					{
+						case 37:
+						{
+							moveX += map.squareSize;
+							break;
+						}
+						case 38:
+						{
+							moveY += map.squareSize;
+							break;
+						}
+						case 39:
+						{
+							moveX -= map.squareSize;
+							break;
+						}
+						case 40:
+						{
+							moveY -= map.squareSize;
+							break;
+						}
+					}
+					dispatchEvent(new MapEvent(MapEvent.CHAR_DANCE, event.keyCode));
+					walkTo(moveX, moveY);
+				}
+			}
+
+			private function walkEffectEnd():void
+			{
+				if(mapTo != 0 && mapTo != map.id)
+				{
+					map = null;
+					dispatchEvent(new MapEvent(MapEvent.TELEPORT, mapTo));
+					mapTo = 0;
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:Parallel id="personWalkEffect">
+		<mx:AnimateProperty id="personWalkX" property="x"/>
+		<mx:AnimateProperty id="personWalkY" property="y"/>
+	</mx:Parallel>
+	<mx:Parallel id="walkEffect"
+		effectEnd="walkEffectEnd()">
+		<mx:AnimateProperty id="walkX" target="{this}" property="imageX" fromValue="{imageX}"/>
+		<mx:AnimateProperty id="walkY" target="{this}" property="imageY" fromValue="{imageY}"/>
+	</mx:Parallel>
+	<mx:Canvas id="image" x="{imageX}" y="{imageY}"/>
+</mx:Canvas>

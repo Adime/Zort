@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:List xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+
+				this.scrollToIndex(ListCollectionView(dataProvider).length);
+			}
+
+			public function openClose():void
+			{
+				if(this.height == 0)
+				{
+					this.visible = true;
+					this.percentHeight = 100;
+				}
+				else
+				{
+					this.visible = false;
+					this.height = 0;
+				}
+			}
+		]]>
+	</mx:Script>
+
+</mx:List>

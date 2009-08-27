@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="300" width="400"
+	horizontalAlign="center" verticalAlign="middle"
+	title="Teleport" showCloseButton="true" close="close()">
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Teleport;
+			import br.com.zort.model.MapTile;
+			import mx.managers.PopUpManager;
+			public var tile:MapTile;
+
+			private function onClick():void
+			{
+				tile.teleport = new Teleport();
+				tile.teleport.mapFrom = Number(mapFrom.text);
+				tile.teleport.mapTo = Number(mapTo.text);
+				close();
+			}
+
+			private function close():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+	<mx:Form>
+		<mx:FormItem label="Mapa Origem">
+			<mx:TextInput id="mapFrom"/>
+		</mx:FormItem>
+		<mx:FormItem label="Mapa Destino">
+			<mx:TextInput id="mapTo"/>
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Button label="ok"
+				click="onClick()"/>
+		</mx:FormItem>
+	</mx:Form>
+
+
+</mx:TitleWindow>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:UIComponent xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="creationComplete()" xmlns:net="flash.net.*">
+
+	<mx:Metadata>
+		[Event(name="POSITION",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="LOGGEDIN",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="TELEPORTED",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="MESSAGING",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="REQUESTPOSITION",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="LOGGEDOUT",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="PRIVATEMESSAGE",type="br.com.zort.messaging.event.MessagingEvent")]
+	</mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.PrivateTalk;
+			import mx.messaging.events.MessageEvent;
+			import br.com.zort.model.Talk;
+			import br.com.zort.messaging.event.MessagingEvent;
+			import mx.controls.Alert;
+			import mx.messaging.messages.IMessage;
+			import mx.messaging.messages.AsyncMessage;
+			import br.com.zort.model.MapTile;
+			import br.com.zort.model.Person;
+			import br.com.zort.model.Map;
+
+			//const
+			private const IP_ADDRESS:String = "127.0.0.1";
+			private const PORT_ADDRESS:int = 2443;
+
+			//variable
+			private var messageHandler:MessageHandler = new MessageHandler();
+			public var destName:String = "chatMessage";
+			public var map:Map;
+			public var char:Person;
+			private var lastPosition:String;
+
+			private function creationComplete():void
+			{
+				socket.connect(IP_ADDRESS, PORT_ADDRESS);
+				this.addEventListener("REQUESTPOSITION", onRequestPosition);
+			}
+
+			private function messageReceived(event:DataEvent):void
+			{
+				var mc:MessageComposer = messageHandler.handlerIt(event.text);
+				var e:MessagingEvent = new MessagingEvent(mc.type);
+				e.classes = mc.classes;
+				dispatchEvent(e);
+			}
+
+			private function onRequestPosition(event:MessagingEvent):void
+			{
+				if(lastPosition != null)
+				{
+					socket.send(lastPosition);
+				}
+			}
+
+			//Send message
+			public function sendPosition(mapTile:MapTile):void
+			{
+				lastPosition = MessageConst.POSITION + map.generateProtocol() + char.generateProtocol() + mapTile.generateProtocol();
+				socket.send(lastPosition);
+			}
+
+			public function sendLogged():void
+			{
+				socket.send(MessageConst.LOGGEDIN + char.generateProtocol());
+			}
+
+			public function sendCharTeleported():void
+			{
+				socket.send(MessageConst.TELEPORTED + char.generateProtocol());
+			}
+
+			public function sendMessage(talk:Talk):void
+			{
+				socket.send(MessageConst.MESSAGING + char.generateProtocol() + talk.generateProtocol());
+			}
+
+			public function sendPositionRequest():void
+			{
+				socket.send(MessageConst.REQUESTPOSITION);
+			}
+
+			public function sendPrivateMessage(talk:PrivateTalk):void
+			{
+				socket.send(MessageConst.PRIVATEMESSAGE + char.generateProtocol() + talk.generateProtocol());
+			}
+		]]>
+	</mx:Script>
+
+	<net:XMLSocket id="socket" data="messageReceived(event)"
+		ioError="Alert.show('Problemas na conexão.','Conexão');"
+		securityError="Alert.show('Security error.','Conexão');"/>
+
+</mx:UIComponent>

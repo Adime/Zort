@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off"
+	layout="vertical" verticalScrollPolicy="off"
+	xmlns:map="br.com.zort.map.*" xmlns:console="br.com.zort.console.*"
+	xmlns:char="br.com.zort.char.*" xmlns:messaging="br.com.zort.messaging.*"
+	xmlns:persistence="br.com.zort.persistence.*" xmlns:local="*">
+
+	<mx:Style source="br/com/zort/assets/css/Main.css"/>
+
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.PrivateTalk;
+			import mx.events.DynamicEvent;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import br.com.zort.console.event.ConsoleEvent;
+			import br.com.zort.model.Talk;
+			import br.com.zort.messaging.event.MessagingEvent;
+			import br.com.zort.helper.ClassHelper;
+			import br.com.zort.model.MapTile;
+			import br.com.zort.map.event.MapEvent;
+			import br.com.zort.model.Person;
+			import br.com.zort.service.PersonService;
+			import mx.controls.Alert;
+			import br.com.zort.model.Map;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.MapService;
+			import mx.collections.ArrayCollection;
+
+			[Bindable]
+			private var squareSize:Number;
+
+			private var peopleSetuped:Boolean = false;
+
+			private var popupUserList:userList;
+			private var popupItemList:itemList;
+			private var popupRobotList:robotItems;
+
+			private function getMapById(id:int):void
+			{
+				new MapService(onGetMapResult).getMapById(id);
+			}
+
+			private function setUpPerson():void
+			{
+				if(!peopleSetuped)
+				{
+					peopleSetuped = true;
+					var p:Person = loginView.loggedUser.person;
+					message.char = p;
+					chara.person = p;
+					console.person = p;
+					message.sendLogged();
+					message.sendPositionRequest();
+				}
+			}
+
+			private function onGetMapResult(event:ResultEvent):void
+			{
+				setUpPerson();
+				var m:Map = Map(event.result);
+				squareSize = m.squareSize;
+				message.map = m;
+				holder.map = m;
+			}
+
+			private function onCharDance(event:MapEvent):void
+			{
+				chara.changeCharByKeyCode(Number(event.data))
+			}
+
+			private function onCharMove(event:MapEvent):void
+			{
+				message.sendPosition(MapTile(event.data));
+			}
+
+			//Message Events
+			private function onLoggedIn(event:MessagingEvent):void
+			{
+				var person:Person = ClassHelper.getClassByType(event.classes, Person);
+			}
+
+			private function onPosition(event:MessagingEvent):void
+			{
+				var map:Map = ClassHelper.getClassByType(event.classes, Map);
+				var mapTile:MapTile = ClassHelper.getClassByType(event.classes, MapTile);
+				var person:Person = ClassHelper.getClassByType(event.classes, Person);
+
+				holder.updateCharPosition(map, person, mapTile);
+			}
+
+			private function onTeleportJoin(event:MapEvent):void
+			{
+				message.sendCharTeleported();
+				getMapById(Number(event.data))
+			}
+
+			private function onLoggedOut(event:MessagingEvent):void
+			{
+				var person:Person = ClassHelper.getClassByType(event.classes, Person);
+				if(holder != null)
+				{
+					holder.removeChar(person);
+				}
+			}
+
+			private function onTeleported(event:MessagingEvent):void
+			{
+				var person:Person = ClassHelper.getClassByType(event.classes, Person);
+				holder.removeChar(person);
+			}
+
+			private function onMessagingReceive(event:MessagingEvent):void
+			{
+				var person:Person = ClassHelper.getClassByType(event.classes, Person);
+				var talk:Talk = ClassHelper.getClassByType(event.classes, Talk);
+
+				holder.showMessage(person, talk);
+				console.addMessage(person, talk.message);
+			}
+
+			private function onTypedText(event:ConsoleEvent):void
+			{
+				var msg:String = String(event.data);
+
+				if(msg.indexOf("@") == 0)
+				{
+					var pt:PrivateTalk = new PrivateTalk();
+					pt.message = msg;
+					message.sendPrivateMessage(pt);
+				}
+				else
+				{
+					chara.setText(msg);
+					var t:Talk = new Talk();
+					t.message = msg;
+					message.sendMessage(t);
+				}
+			}
+
+			private function onLogin():void
+			{
+				vs.selectedIndex = 1;
+			}
+
+			private function mapCreated():void
+			{
+				new MapService(onGetMapResult).getMapById(7);
+			}
+
+			private function addUserList():void
+			{
+				if(popupUserList == null)
+				{
+					popupUserList = userList(PopUpManager.createPopUp(this, userList));
+					popupUserList.height = holder.height;
+					popupUserList.width = 200;
+					popupUserList.x = holder.x + holder.width - popupUserList.width;
+					popupUserList.dataProvider = holder.personsCollection;
+
+					popupUserList.addEventListener(CloseEvent.CLOSE, onUserListClose);
+					popupUserList.addEventListener("userClick", userClickHandler);
+				}
+			}
+
+			private function addItemList():void
+			{
+				if(popupItemList == null)
+				{
+					popupItemList = itemList(PopUpManager.createPopUp(this, itemList));
+					popupItemList.height = holder.height;
+					popupItemList.width = 200;
+					popupItemList.x = holder.x + holder.width - popupItemList.width;
+					popupItemList.addEventListener(CloseEvent.CLOSE, onItemListClose);
+				}
+			}
+
+			private function addRobotList():void
+			{
+				if(popupRobotList == null)
+				{
+					popupRobotList = robotItems(PopUpManager.createPopUp(this, robotItems));
+					popupRobotList.x = holder.x + holder.width - popupRobotList.width;
+					popupRobotList.robot = loginView.loggedUser.robot;
+					popupRobotList.addEventListener(CloseEvent.CLOSE, onRobotListClose);
+				}
+			}
+
+			private function userClickHandler(event:DynamicEvent):void
+			{
+				console.txtConsole.text = "@" + event.name + " ";
+				callLater(function()
+					{
+						console.setFocus();
+					});
+			}
+
+			private function onUserListClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(popupUserList);
+				popupUserList = null;
+			}
+
+			private function onItemListClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(popupItemList);
+				popupItemList = null;
+			}
+
+			private function onRobotListClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(popupRobotList);
+				popupRobotList = null;
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Parallel id="hideEffect">
+		<mx:Blur duration="1000" blurXFrom="0.0" blurXTo="10.0" blurYFrom="0.0" blurYTo="10.0"/>
+		<mx:Fade duration="1000" alphaFrom="1" alphaTo="0"/>
+	</mx:Parallel>
+	<mx:Parallel id="showEffect">
+		<mx:Blur duration="1000" blurXFrom="10.0" blurXTo="0.0" blurYFrom="10.0" blurYTo="0.0"/>
+		<mx:Fade duration="1000" alphaFrom="0" alphaTo="1"/>
+	</mx:Parallel>
+
+	<messaging:Message id="message" LOGGEDIN="onLoggedIn(event)" POSITION="onPosition(event)"
+		TELEPORTED="onTeleported(event)" MESSAGING="onMessagingReceive(event)"
+		LOGGEDOUT="onLoggedOut(event)" PRIVATEMESSAGE="onMessagingReceive(event)"/>
+	<mx:ViewStack id="vs" height="600" width="900">
+		<mx:Canvas height="100%" width="100%" hideEffect="{hideEffect}">
+			<local:login id="loginView" Login="onLogin()"/>
+		</mx:Canvas>
+		<mx:VBox height="100%" width="100%" horizontalAlign="center" verticalAlign="middle"
+			showEffect="{showEffect}">
+			<mx:Canvas id="container" height="420" width="100%">
+				<map:MapHolder id="holder" height="100%" width="100%" borderStyle="solid"
+					creationComplete="mapCreated();" teleport="onTeleportJoin(event)"
+					charDance="onCharDance(event)" charMove="onCharMove(event)"
+					charInitialize="onCharMove(event)"/>
+				<char:Char id="chara" height="{squareSize}" width="{squareSize}"
+					x="{container.width/2 - squareSize/2}" y="{container.height/2 - squareSize/2}"/>
+				<console:Console id="console" height="200" width="350" x="3"
+					y="{container.height-200-3}" backgroundAlpha="0.5"
+					typeText="onTypedText(event)"/>
+				<mx:HBox horizontalAlign="right" right="5" top="5">
+					<mx:Button label="Robo"
+						click="addRobotList()"/>
+					<mx:Button label="itens"
+						click="addItemList()"/>
+					<mx:Button label="amigos"
+						click="addUserList()"/>
+				</mx:HBox>
+				<mx:Label text="$ {loginView.loggedUser.money}" color="#FFFFFF" left="5" top="5"/>
+			</mx:Canvas>
+		</mx:VBox>
+	</mx:ViewStack>
+</mx:Application>

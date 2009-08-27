@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	creationComplete="onCreationComplete()" title="Itens" showCloseButton="true" xmlns:local="*">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.persistence.CollectionsPersistence;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.UserService;
+			import br.com.zort.char.Char;
+			import mx.events.DynamicEvent;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+
+			private function onCreationComplete():void
+			{
+				new UserService(storeItemsReturn).getStoreItems();
+			}
+
+			private function storeItemsReturn(event:ResultEvent):void
+			{
+				CollectionsPersistence.items = ArrayCollection(event.result);
+			}
+		]]>
+	</mx:Script>
+	<mx:TileList dataProvider="{CollectionsPersistence.items}" height="100%" width="100%"
+		columnCount="2" rowHeight="70" dragEnabled="true">
+		<mx:itemRenderer>
+			<mx:Component>
+				<local:itemListRenderer/>
+			</mx:Component>
+		</mx:itemRenderer>
+	</mx:TileList>
+</mx:TitleWindow>

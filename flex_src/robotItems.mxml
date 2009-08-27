@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center"
+	title="Robô" xmlns:local="*">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.UserService;
+			import br.com.zort.model.Robot;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import br.com.zort.assets.Assets;
+			import br.com.zort.model.Item;
+			import mx.events.DragEvent;
+
+			[Bindable]
+			private var _robot:Robot;
+
+			[Bindable]
+			private var defesa:int = 0;
+
+			[Bindable]
+			private var ataque:int = 0;
+
+			[Bindable]
+			private var level:int = 0;
+
+			public function set robot(v:Robot):void
+			{
+				_robot = v;
+				calculateDEFATT(_robot);
+				level = _robot.level;
+			}
+
+			public function get robot():Robot
+			{
+				return _robot;
+			}
+
+			private function calculateDEFATT(r:Robot):void
+			{
+				update(r.head);
+				update(r.body);
+				update(r.leftHand);
+				update(r.rightHand);
+				update(r.legs);
+				update(r.feet);
+			}
+
+			public function update(i:Item):void
+			{
+				if(i != null)
+				{
+					defesa += i.defense;
+					ataque += i.attack;
+				}
+			}
+
+			private function onDragEnter(event:DragEvent, tipo:String):void
+			{
+				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
+				if(item.type.nome == tipo)
+				{
+					DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+					DragManager.showFeedback(DragManager.COPY);
+				}
+			}
+
+			private function onDragDrop(event:DragEvent):void
+			{
+				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
+				ItemHolder(event.currentTarget).source = Assets.getTileImage(item.image);
+
+				updateRobot(item);
+				calculateDEFATT(robot);
+				new UserService(saveRobotResult).saveRobot(robot);
+			}
+
+			private function updateRobot(i:Item):void
+			{
+				switch(i.type.nome)
+				{
+					case 'Capacete':
+						robot.head = i;
+						break;
+					case 'Armadura':
+						robot.body = i;
+						break;
+					case 'Perna':
+						robot.legs = i;
+						break;
+					case 'Botas':
+						robot.feet = i;
+						break;
+					case 'Escudo':
+						robot.leftHand = i;
+						break;
+					case 'Arma':
+						robot.rightHand = i;
+						break;
+
+				}
+			}
+
+			private function saveRobotResult(event:ResultEvent):void
+			{
+				trace('robo salvo');
+			}
+		]]>
+	</mx:Script>
+	<local:ItemHolder 
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Capacete')"/>
+	<mx:HBox>
+		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+	</mx:HBox>
+	<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+	<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+	<mx:Form>
+		<mx:FormItem label="Level:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{level}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Defesa:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{defesa}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Ataque:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{ataque}"/>
+		</mx:FormItem>
+	</mx:Form>
+</mx:Panel>
