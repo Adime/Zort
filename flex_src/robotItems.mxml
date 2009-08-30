@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center"
-	title="Robô" xmlns:local="*">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center"
+	showCloseButton="true" title="Robô" xmlns:local="*">
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.persistence.CollectionsPersistence;
 			import mx.controls.Alert;
 			import mx.rpc.events.ResultEvent;
 			import br.com.zort.service.UserService;
@@ -30,6 +31,7 @@
 				_robot = v;
 				calculateDEFATT(_robot);
 				level = _robot.level;
+				updateList(_robot);
 			}
 
 			public function get robot():Robot
@@ -39,6 +41,9 @@
 
 			private function calculateDEFATT(r:Robot):void
 			{
+				defesa = 0;
+				ataque = 0;
+
 				update(r.head);
 				update(r.body);
 				update(r.leftHand);
@@ -69,7 +74,13 @@
 			private function onDragDrop(event:DragEvent):void
 			{
 				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
-				ItemHolder(event.currentTarget).source = Assets.getTileImage(item.image);
+				var itemHolder:ItemHolder = ItemHolder(event.currentTarget);
+				CollectionsPersistence.items.removeItemAt(CollectionsPersistence.items.getItemIndex(item));
+				if(itemHolder.data != null)
+				{
+					CollectionsPersistence.items.addItem(itemHolder.data);
+				}
+				itemHolder.data = item;
 
 				updateRobot(item);
 				calculateDEFATT(robot);
@@ -98,8 +109,17 @@
 					case 'Arma':
 						robot.rightHand = i;
 						break;
-
 				}
+			}
+
+			private function updateList(r:Robot):void
+			{
+				capacete.data = r.head;
+				armadura.data = r.body;
+				arma.data = r.rightHand;
+				escudo.data = r.leftHand;
+				perna.data = r.legs;
+				botas.data = r.feet;
 			}
 
 			private function saveRobotResult(event:ResultEvent):void
@@ -108,15 +128,20 @@
 			}
 		]]>
 	</mx:Script>
-	<local:ItemHolder 
+	<local:ItemHolder id="capacete"
 		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Capacete')"/>
 	<mx:HBox>
-		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
-		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
-		<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+		<local:ItemHolder id="arma"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Arma')"/>
+		<local:ItemHolder id="armadura"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Armadura')"/>
+		<local:ItemHolder id="escudo"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Escudo')"/>
 	</mx:HBox>
-	<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
-	<mx:Canvas height="70" width="70" backgroundColor="#ffffff"/>
+	<local:ItemHolder id="perna"
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Perna')"/>
+	<local:ItemHolder id="botas"
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Botas')"/>
 	<mx:Form>
 		<mx:FormItem label="Level:" verticalGap="0">
 			<mx:Label styleName="vermelho" text="{level}"/>
@@ -128,4 +153,4 @@
 			<mx:Label styleName="vermelho" text="{ataque}"/>
 		</mx:FormItem>
 	</mx:Form>
-</mx:Panel>
+</mx:TitleWindow>

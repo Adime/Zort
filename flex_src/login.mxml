@@ -62,8 +62,8 @@
 				if(event.result != null)
 				{
 					loggedUser = User(event.result);
-					loggedUser.person.id = loggedUser.id;
-					loggedUser.person.name = loggedUser.nome;
+					loggedUser.person.newId = loggedUser.id;
+					loggedUser.person.newName = loggedUser.nome;
 					dispatchEvent(new Event("Login"));
 				}
 				else
@@ -118,13 +118,13 @@
 		<mx:VBox>
 			<mx:Form>
 				<mx:FormItem label="Login:">
-					<mx:TextInput id="txtLogin"/>
+					<mx:TextInput id="txtLogin" restrict=" "/>
 				</mx:FormItem>
 				<mx:FormItem label="Senha:">
 					<mx:TextInput id="txtPassword" displayAsPassword="true"/>
 				</mx:FormItem>
 				<mx:FormItem label="Nome:">
-					<mx:TextInput id="txtNome"/>
+					<mx:TextInput id="txtNome" restrict=" "/>
 				</mx:FormItem>
 				<mx:FormItem label="Email:">
 					<mx:TextInput id="txtEmail"/>

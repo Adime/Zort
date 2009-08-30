@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:UIComponent xmlns:mx="http://www.adobe.com/2006/mxml"
-	creationComplete="creationComplete()" xmlns:net="flash.net.*">
+<mx:UIComponent xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:net="flash.net.*">
 
 	<mx:Metadata>
 		[Event(name="POSITION",type="br.com.zort.messaging.event.MessagingEvent")]
@@ -26,7 +25,8 @@
 			import br.com.zort.model.Map;
 
 			//const
-			private const IP_ADDRESS:String = "127.0.0.1";
+			//private const IP_ADDRESS:String = "127.0.0.1";
+			private const IP_ADDRESS:String = "192.168.0.140";
 			private const PORT_ADDRESS:int = 2443;
 
 			//variable
@@ -36,7 +36,7 @@
 			public var char:Person;
 			private var lastPosition:String;
 
-			private function creationComplete():void
+			public function connect():void
 			{
 				socket.connect(IP_ADDRESS, PORT_ADDRESS);
 				this.addEventListener("REQUESTPOSITION", onRequestPosition);

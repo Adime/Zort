@@ -42,4 +42,8 @@ public class ItemDAO extends BaseHibernateDAO<Item> {
 		
 		return (List<Item>) getHibernateTemplate().findByCriteria(dc); 
 	}
+	public void updateItem(Item i)
+	{
+		getHibernateTemplate().saveOrUpdate(i);
+	}
 }

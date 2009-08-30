@@ -30,7 +30,7 @@
 
 			public function addMessage(person:Person, message:String):void
 			{
-				var messageFinal:String = person.name + ': ' + message;
+				var messageFinal:String = person.newName + ': ' + message;
 				consoleProvider.addItem({label: messageFinal});
 			}
 		]]>

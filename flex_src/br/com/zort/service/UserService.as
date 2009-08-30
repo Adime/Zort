@@ -1,5 +1,6 @@
 package br.com.zort.service
 {
+	import br.com.zort.model.Item;
 	import br.com.zort.model.Robot;
 	import br.com.zort.model.User;
 
@@ -51,6 +52,26 @@ package br.com.zort.service
 		}
 
 		public function saveRobotResult(event:ResultEvent):void
+		{
+			doCallBack(event);
+		}
+
+		public function buyItem(user:User, item:Item):void
+		{
+			service.buyItem(user, item);
+		}
+
+		public function buyItemResult(event:ResultEvent):void
+		{
+			doCallBack(event);
+		}
+
+		public function getItemsByUser(user:User):void
+		{
+			service.getItemsByUser(user);
+		}
+
+		public function getItemsByUserResult(event:ResultEvent):void
 		{
 			doCallBack(event);
 		}

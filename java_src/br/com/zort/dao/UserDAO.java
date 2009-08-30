@@ -18,7 +18,7 @@ public class UserDAO extends BaseHibernateDAO<User> {
 		super.setSessionFactory(sessionFactory);
 	}
 	
-	public User addUser(User user)
+	public User addOrUpdate(User user)
 	{
 		getHibernateTemplate().saveOrUpdate(user);
 		return user;

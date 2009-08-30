@@ -35,6 +35,7 @@
 			private var popupUserList:userList;
 			private var popupItemList:itemList;
 			private var popupRobotList:robotItems;
+			private var popupStoreList:storeList;
 
 			private function getMapById(id:int):void
 			{
@@ -85,8 +86,10 @@
 				var map:Map = ClassHelper.getClassByType(event.classes, Map);
 				var mapTile:MapTile = ClassHelper.getClassByType(event.classes, MapTile);
 				var person:Person = ClassHelper.getClassByType(event.classes, Person);
-
-				holder.updateCharPosition(map, person, mapTile);
+				if(holder != null)
+				{
+					holder.updateCharPosition(map, person, mapTile);
+				}
 			}
 
 			private function onTeleportJoin(event:MapEvent):void
@@ -141,6 +144,7 @@
 			private function onLogin():void
 			{
 				vs.selectedIndex = 1;
+				message.connect();
 			}
 
 			private function mapCreated():void
@@ -168,10 +172,24 @@
 				if(popupItemList == null)
 				{
 					popupItemList = itemList(PopUpManager.createPopUp(this, itemList));
+					popupItemList.user = loginView.loggedUser;
 					popupItemList.height = holder.height;
 					popupItemList.width = 200;
 					popupItemList.x = holder.x + holder.width - popupItemList.width;
 					popupItemList.addEventListener(CloseEvent.CLOSE, onItemListClose);
+				}
+			}
+
+			private function addStoreList():void
+			{
+				if(popupStoreList == null)
+				{
+					popupStoreList = storeList(PopUpManager.createPopUp(this, storeList));
+					popupStoreList.height = holder.height - 30;
+					popupStoreList.width = 200;
+					popupStoreList.user = loginView.loggedUser;
+					popupStoreList.x = holder.x + holder.width - popupStoreList.width;
+					popupStoreList.addEventListener(CloseEvent.CLOSE, onStoreClose);
 				}
 			}
 
@@ -212,6 +230,12 @@
 				PopUpManager.removePopUp(popupRobotList);
 				popupRobotList = null;
 			}
+
+			private function onStoreClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(popupStoreList);
+				popupStoreList = null;
+			}
 		]]>
 	</mx:Script>
 
@@ -244,6 +268,8 @@
 					y="{container.height-200-3}" backgroundAlpha="0.5"
 					typeText="onTypedText(event)"/>
 				<mx:HBox horizontalAlign="right" right="5" top="5">
+					<mx:Button label="Loja"
+						click="addStoreList()"/>
 					<mx:Button label="Robo"
 						click="addRobotList()"/>
 					<mx:Button label="itens"

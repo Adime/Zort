@@ -16,9 +16,14 @@ package br.com.zort.model
 		public var imageRight:String;
 		public var imageLeft:String;
 
+		[Transient]
+		public var newId:Number;
+		[Transient]
+		public var newName:String;
+
 		public function generateProtocol():String
 		{
-			return StringHelper.parseIt(getClassName(), this.id, this.imageFront, this.imageBack, this.imageRight, this.imageLeft, this.name);
+			return StringHelper.parseIt(getClassName(), this.id, this.imageFront, this.imageBack, this.imageRight, this.imageLeft, this.newName, this.newId);
 		}
 
 		public function fillFromProtocol(protocol:String):*
@@ -30,7 +35,8 @@ package br.com.zort.model
 			this.imageBack = array[3];
 			this.imageRight = array[4];
 			this.imageLeft = array[5];
-			this.name = array[6];
+			this.newName = array[6];
+			this.newId = array[7];
 
 			return this;
 		}

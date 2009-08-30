@@ -21,7 +21,7 @@ public class Item {
 	private Type type;
 	private Integer defense;
 	private Integer attack;
-	private Double price;
+	private Integer price;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -64,10 +64,10 @@ public class Item {
 	public void setAttack(Integer attack) {
 		this.attack = attack;
 	}
-	public Double getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 	public User getUser() {
@@ -81,6 +81,10 @@ public class Item {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public void setIdNull()
+	{
+		this.id = null;
 	}
 	
 }

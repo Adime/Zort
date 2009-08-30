@@ -22,7 +22,7 @@
 			private function itemDoubleClick():void
 			{
 				var de:DynamicEvent = new DynamicEvent("userClick");
-				de.name = Char(lstUser.selectedItem).person.name;
+				de.name = Char(lstUser.selectedItem).person.newName;
 				dispatchEvent(de);
 			}
 		]]>

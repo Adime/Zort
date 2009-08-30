@@ -44,7 +44,7 @@ public class UserService implements IUserService{
 	public void saveUser(User user) {
 		user.setRobot(createRobot());
 		user.setMoney(1000);
-		user = userDAO.addUser(user);
+		user = userDAO.addOrUpdate(user);
 		createSkills(user);
 	}
 	
@@ -89,9 +89,24 @@ public class UserService implements IUserService{
 	{
 		return itemDAO.getStoreItems();
 	}
+	public List<Item> getItemsByUser(User u)
+	{
+		return itemDAO.getItemByUser(u);
+	}
 	public Robot saveRobot(Robot r)
 	{
 		return robotDAO.saveOrUpdate(r);
+	}
+	public void buyItem(User u, Item i)
+	{
+		i.setIdNull();
+		i.setUser(u);
+		
+		Integer newMoney = u.getMoney() - i.getPrice();
+		u.setMoney(newMoney);
+		
+		itemDAO.saveOrUpdate(i);
+		userDAO.addOrUpdate(u);
 	}
 	
 }

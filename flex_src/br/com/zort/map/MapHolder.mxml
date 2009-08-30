@@ -126,7 +126,7 @@
 				var charFound:Char;
 				for each(var c:Char in personsCollection)
 				{
-					if(c.person.id == person.id)
+					if(c.person.newId == person.newId)
 					{
 						charFound = c;
 					}
@@ -151,7 +151,7 @@
 			{
 				for each(var c:Char in personsCollection)
 				{
-					if(c.person.id == person.id)
+					if(c.person.newId == person.newId)
 					{
 						return c;
 					}
