@@ -16,7 +16,7 @@
 
 			private function getName(item:Object):String
 			{
-				return item != null ? item.person.name : "---";
+				return item != null ? item.person.newName : "---";
 			}
 
 			private function itemDoubleClick():void
