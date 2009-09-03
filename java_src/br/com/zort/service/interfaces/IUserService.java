@@ -28,4 +28,7 @@ public interface IUserService {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	void buyItem(User u, Item i);
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	void removeItemFromUser(Item i);
 }

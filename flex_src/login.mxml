@@ -118,13 +118,13 @@
 		<mx:VBox>
 			<mx:Form>
 				<mx:FormItem label="Login:">
-					<mx:TextInput id="txtLogin" restrict=" "/>
+					<mx:TextInput id="txtLogin"/>
 				</mx:FormItem>
 				<mx:FormItem label="Senha:">
 					<mx:TextInput id="txtPassword" displayAsPassword="true"/>
 				</mx:FormItem>
 				<mx:FormItem label="Nome:">
-					<mx:TextInput id="txtNome" restrict=" "/>
+					<mx:TextInput id="txtNome"/>
 				</mx:FormItem>
 				<mx:FormItem label="Email:">
 					<mx:TextInput id="txtEmail"/>

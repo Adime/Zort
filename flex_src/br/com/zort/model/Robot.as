@@ -1,7 +1,7 @@
 package br.com.zort.model
 {
 	import br.com.zort.helper.StringHelper;
-
+	
 	import mx.collections.ArrayCollection;
 
 	[RemoteClass(alias="br.com.zort.model.Robot")]
@@ -39,6 +39,38 @@ package br.com.zort.model
 		public function getClassName():String
 		{
 			return "$ROBOT";
+		}
+		
+		//aux methods
+		
+		private function calculate(field:String):int
+		{
+			var aux:int = 0;
+			aux += update(head, field);
+			aux += update(body, field);
+			aux += update(leftHand, field);
+			aux += update(rightHand, field);
+			aux += update(legs, field);
+			aux += update(feet, field);
+			
+			return aux;
+		}
+
+		private function update(i:Item, field:String):int
+		{
+			if(i != null)
+			{
+				return i[field];
+			}
+			return 0;
+		}
+		public function get attack():int
+		{
+			return calculate("attack");
+		}
+		public function get defense():int
+		{
+			return calculate("defense");
 		}
 	}
 }

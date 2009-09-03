@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" xmlns:battle="br.com.zort.view.battle.*">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Robot;
+			
+			[Bindable]
+			public var robot:Robot;
+			
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%">
+		
+		<mx:Image width="100%" height="100%"/>
+		
+		<mx:Form width="100%">
+			<mx:FormItem label="Vida:">
+				<local:colorProgressBar width="160" height="17" progress="100"/>
+			</mx:FormItem>
+			<mx:FormItem label="Level:">
+				<mx:Label text="{robot.level}" />
+			</mx:FormItem>
+			<mx:FormItem label="Ataque:">
+				<mx:Label text="{robot.attack}" />
+			</mx:FormItem>
+			<mx:FormItem label="Defesa:">
+				<mx:Label text="{robot.defense}" />
+			</mx:FormItem>
+		</mx:Form>
+		
+	</mx:HBox>
+	<mx:Label width="100%" text="Golpes" textAlign="center"/>
+	<battle:SkillHolder dataProvider="{robot.skills}" width="100%"/>
+</mx:VBox>

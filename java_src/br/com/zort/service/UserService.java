@@ -108,5 +108,10 @@ public class UserService implements IUserService{
 		itemDAO.saveOrUpdate(i);
 		userDAO.addOrUpdate(u);
 	}
+	public void removeItemFromUser(Item i)
+	{
+		i.setUser(null);
+		itemDAO.saveOrUpdate(i);
+	}
 	
 }

@@ -293,15 +293,6 @@ ColorPicker
 	overSkin: Embed(source='br/com/zort/assets/images/ColorPicker_overSkin.png');
 	disabledSkin: Embed(source='br/com/zort/assets/images/ColorPicker_disabledSkin.png');
 }
-ProgressBar
-{
-	track-skin: Embed(source='br/com/zort/assets/images/progressbar_bg.png', scaleGridLeft=8, scaleGridRight=30, scaleGridTop=5,scaleGridBottom=6);
-	bar-skin: Embed(source='br/com/zort/assets/images/progressbar_bar.png', scaleGridLeft=6, scaleGridRight=30, scaleGridTop=4,scaleGridBottom=5);
-	indeterminate-skin: ClassReference("br.com.zort.assets.skins.ProgressIndeterminateSkin");
-	barColor: #22201e;
-	font-size: 10;
-	font-thickness: -200;
-}
 HSlider, VSlider
 {
 	thumbUpSkin: Embed(source='br/com/zort/assets/images/slider_thumbUp.png');

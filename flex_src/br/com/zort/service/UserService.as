@@ -3,7 +3,7 @@ package br.com.zort.service
 	import br.com.zort.model.Item;
 	import br.com.zort.model.Robot;
 	import br.com.zort.model.User;
-
+	
 	import mx.rpc.events.ResultEvent;
 
 	public class UserService extends Service
@@ -74,6 +74,14 @@ package br.com.zort.service
 		public function getItemsByUserResult(event:ResultEvent):void
 		{
 			doCallBack(event);
+		}
+		public function removeItemFromUser(i:Item):void
+		{
+			service.removeItemFromUser(i);
+		}
+		public function remoteItemFromUserResult(event:ResultEvent):void
+		{
+			doCallBack(event);	
 		}
 
 		public function doCallBack(event:ResultEvent):void

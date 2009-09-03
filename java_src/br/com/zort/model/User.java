@@ -29,7 +29,7 @@ public class User implements Serializable {
 	@OneToOne
 	private Robot robot;
 
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="user")
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
 	private List<Item> items;
 	
 	private Integer money;
