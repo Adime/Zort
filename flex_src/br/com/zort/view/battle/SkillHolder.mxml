@@ -5,66 +5,68 @@
 			import br.com.zort.event.SkillEvent;
 			import br.com.zort.model.Skill;
 			import mx.collections.ArrayCollection;
-			
+
 			public var columns:int = 3;
-			
+
 			private var _dataProvider:ArrayCollection;
 			private var isDataProviderChanged:Boolean = false;
-			
+
 			public var skillLoading:Boolean = false;
-			
+
 			public function set dataProvider(v:ArrayCollection):void
 			{
 				_dataProvider = v;
 				isDataProviderChanged = true;
-				invalidateDisplayList();	
+				invalidateDisplayList();
 			}
+
 			public function get dataProvider():ArrayCollection
 			{
 				return _dataProvider;
 			}
-			
-			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number) : void
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 			{
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
-				
-				if (isDataProviderChanged)
+
+				if(isDataProviderChanged)
 				{
 					isDataProviderChanged = false;
 					removeAllChildren();
 					var tempCol:int = 0;
 					var tempRow:int = 0;
-					var btWidth:Number = unscaledWidth/columns;
-					
-					for each (var skill:Skill in _dataProvider)
+					var btWidth:Number = unscaledWidth / columns;
+
+					for each(var skill:Skill in _dataProvider)
 					{
-						if (tempCol == columns)
+						if(tempCol == columns)
 						{
 							tempCol = 0;
 							tempRow += 1;
 						}
-						var sb:skillButton = new skillButton();
+						var sb:SkillButton = new SkillButton();
 						sb.skill = skill;
 						sb.skillHolder = this;
-						sb.addEventListener(SkillEvent.SKILL_DONE,onSkillDone);
+						sb.addEventListener(SkillEvent.SKILL_DONE, onSkillDone);
 						sb.addEventListener(SkillEvent.SKILL_START, onSkillStart);
-						sb.x = tempCol*btWidth;
-						sb.y = tempRow*sb.height+5;
-						
+						sb.x = tempCol * btWidth;
+						sb.y = tempRow * sb.height + 5;
+
 						addChild(sb);
 						tempCol += 1;
 					}
 				}
 			}
+
 			private function onSkillStart(event:SkillEvent):void
 			{
-				skillLoading = true;				
+				skillLoading = true;
 			}
+
 			private function onSkillDone(event:SkillEvent):void
 			{
 				skillLoading = false;
 			}
-			
 		]]>
 	</mx:Script>
 </mx:Canvas>

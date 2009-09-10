@@ -1,5 +1,6 @@
 package br.com.zort.messaging
 {
+	import br.com.zort.model.BattleRequest;
 	import br.com.zort.model.IProtocol;
 	import br.com.zort.model.Map;
 	import br.com.zort.model.MapTile;
@@ -8,7 +9,6 @@ package br.com.zort.messaging
 	import br.com.zort.model.Robot;
 	import br.com.zort.model.Skill;
 	import br.com.zort.model.Talk;
-
 
 	public class MessageHandler
 	{
@@ -57,7 +57,7 @@ package br.com.zort.messaging
 
 		private function getProtocolClasses():Array
 		{
-			return[new Map(), new MapTile(), new Person(), new Talk(), new PrivateTalk(), new Robot(), new Skill()];
+			return[new Map(), new MapTile(), new Person(), new Talk(), new PrivateTalk(), new Robot(), new Skill(), new BattleRequest()];
 		}
 
 	}

@@ -9,10 +9,12 @@
 		[Event(name="REQUESTPOSITION",type="br.com.zort.messaging.event.MessagingEvent")]
 		[Event(name="LOGGEDOUT",type="br.com.zort.messaging.event.MessagingEvent")]
 		[Event(name="PRIVATEMESSAGE",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="BATTLEREQUEST",type="br.com.zort.messaging.event.MessagingEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.BattleRequest;
 			import br.com.zort.model.PrivateTalk;
 			import mx.messaging.events.MessageEvent;
 			import br.com.zort.model.Talk;
@@ -88,6 +90,11 @@
 			public function sendPrivateMessage(talk:PrivateTalk):void
 			{
 				socket.send(MessageConst.PRIVATEMESSAGE + char.generateProtocol() + talk.generateProtocol());
+			}
+
+			public function sendBattleRequest(betRequest:BattleRequest)
+			{
+				socket.send(MessageConst.BATTLEREQUEST + betRequest.generateProtocol());
 			}
 		]]>
 	</mx:Script>

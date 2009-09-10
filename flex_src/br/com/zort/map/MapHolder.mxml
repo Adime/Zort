@@ -7,9 +7,12 @@
 		[Event(name="charDance",type="br.com.zort.map.event.MapEvent")]
 		[Event(name="charMove",type="br.com.zort.map.event.MapEvent")]
 		[Event(name="charInitialize",type="br.com.zort.map.event.MapEvent")]
+		[Event(name="battle", type="br.com.zort.char.CharEvent")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.char.CharEvent;
+			import br.com.zort.char.CharExternal;
 			import br.com.zort.model.Talk;
 			import br.com.zort.char.Char;
 			import mx.collections.ArrayCollection;
@@ -105,12 +108,17 @@
 					var tileTo:TileCanvas = getTileCanvasByMapTile(mapTile);
 					if(c == null)
 					{
-						var char:Char = new Char();
+						var char:CharExternal = new CharExternal();
+						
 						char.height = map.squareSize;
 						char.width = map.squareSize;
 						char.person = person;
 						char.x = tileTo.x;
 						char.y = tileTo.y;
+						
+						//events
+						char.addEventListener(CharEvent.BATTLE, onBattle);
+						
 						personsCollection.addItem(char);
 						image.addChild(char);
 					}
@@ -133,6 +141,7 @@
 				}
 				if(charFound != null)
 				{
+					charFound.removeEventListener(CharEvent.BATTLE, onBattle);
 					personsCollection.removeItemAt(personsCollection.getItemIndex(charFound));
 					image.removeChild(charFound);
 				}
@@ -253,6 +262,10 @@
 					dispatchEvent(new MapEvent(MapEvent.TELEPORT, mapTo));
 					mapTo = 0;
 				}
+			}
+			private function onBattle(event:CharEvent):void
+			{
+				dispatchEvent(event);
 			}
 		]]>
 	</mx:Script>
