@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center"
+	showCloseButton="true" title="Robô" xmlns:local="*" xmlns:item="br.com.zort.view.item.*">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.view.item.ItemHolder;
+			import br.com.zort.model.User;
+			import br.com.zort.persistence.CollectionsPersistence;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.UserService;
+			import br.com.zort.model.Robot;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			import br.com.zort.assets.Assets;
+			import br.com.zort.model.Item;
+			import mx.events.DragEvent;
+
+			[Bindable]
+			private var _robot:Robot;
+
+			public var user:User;
+
+			[Bindable]
+			private var defesa:int = 0;
+
+			[Bindable]
+			private var ataque:int = 0;
+
+			[Bindable]
+			private var level:int = 0;
+
+			public function set robot(v:Robot):void
+			{
+				_robot = v;
+				calculateDEFATT(_robot);
+				level = _robot.level;
+				updateList(_robot);
+			}
+
+			public function get robot():Robot
+			{
+				return _robot;
+			}
+
+			private function calculateDEFATT(r:Robot):void
+			{
+				defesa = r.defense;
+				ataque = r.attack;
+			}
+
+			private function onDragEnter(event:DragEvent, tipo:String):void
+			{
+				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
+				if(item.type.nome == tipo)
+				{
+					DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+					DragManager.showFeedback(DragManager.COPY);
+				}
+			}
+
+			private function onDragDrop(event:DragEvent):void
+			{
+				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
+				var itemHolder:ItemHolder = ItemHolder(event.currentTarget);
+				CollectionsPersistence.items.removeItemAt(CollectionsPersistence.items.getItemIndex(item));
+				if(itemHolder.data != null)
+				{
+					CollectionsPersistence.items.addItem(itemHolder.data);
+				}
+				itemHolder.data = item;
+
+				updateRobot(item);
+				item.user = null;
+				new UserService().removeItemFromUser(item);
+				calculateDEFATT(robot);
+			}
+
+			private function updateRobot(i:Item):void
+			{
+				switch(i.type.nome)
+				{
+					case 'Capacete':
+						robot.head = i;
+						break;
+					case 'Armadura':
+						robot.body = i;
+						break;
+					case 'Perna':
+						robot.legs = i;
+						break;
+					case 'Botas':
+						robot.feet = i;
+						break;
+					case 'Escudo':
+						robot.leftHand = i;
+						break;
+					case 'Arma':
+						robot.rightHand = i;
+						break;
+				}
+				new UserService().saveRobot(robot);
+			}
+
+			private function updateList(r:Robot):void
+			{
+				capacete.data = r.head;
+				armadura.data = r.body;
+				arma.data = r.rightHand;
+				escudo.data = r.leftHand;
+				perna.data = r.legs;
+				botas.data = r.feet;
+			}
+		]]>
+	</mx:Script>
+	<item:ItemHolder id="capacete"
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Capacete')"/>
+	<mx:HBox>
+		<item:ItemHolder id="arma"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Arma')"/>
+		<item:ItemHolder id="armadura"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Armadura')"/>
+		<item:ItemHolder id="escudo"
+			dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Escudo')"/>
+	</mx:HBox>
+	<item:ItemHolder id="perna"
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Perna')"/>
+	<item:ItemHolder id="botas"
+		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Botas')"/>
+	<mx:Form>
+		<mx:FormItem label="Level:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{level}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Defesa:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{defesa}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Ataque:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{ataque}"/>
+		</mx:FormItem>
+	</mx:Form>
+</mx:TitleWindow>

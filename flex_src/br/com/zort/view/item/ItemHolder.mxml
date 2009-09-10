@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="70" width="70"
+	backgroundColor="#ffffff">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.assets.Assets;
+			import mx.events.ToolTipEvent;
+
+			public function set injectData(o:Object):void
+			{
+				super.data = o;
+			}
+
+			private function createCustomTip(nome:String, tipo:String, defesa:String, ataque:String, event:ToolTipEvent):void
+			{
+				var ttp:ItemListTooltip = new ItemListTooltip();
+				ttp.ataque = ataque;
+				ttp.defesa = defesa;
+				ttp.tipo = tipo;
+				ttp.nome = nome;
+				event.toolTip = ttp;
+			}
+		]]>
+	</mx:Script>
+	<mx:Image height="100%" source="{Assets.getTileImage(data.image)}" toolTip="lala" width="100%"
+		toolTipCreate="createCustomTip(data.name,data.type.nome,data.defense,data.attack,event)"
+		maintainAspectRatio="false"/>
+
+</mx:Canvas>

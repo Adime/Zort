@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="150" layout="vertical" width="400"
+	horizontalAlign="center" paddingTop="15" verticalGap="15" creationCompleteEffect="{Fade}"
+	removedEffect="{Fade}"
+	showCloseButton="true" title="Batalha!!!">
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.BattleRequest;
+			import mx.effects.Fade;
+			import br.com.zort.model.Person;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+
+			private var breq:BattleRequest;
+
+			[Bindable]
+			private var message:String;
+
+			public function setBattleRequest(b:BattleRequest):void
+			{
+				breq = b;
+				message = breq.battleOrigin.newName + ' quer batalhar! E apostou ' + breq.betValue + '! Você aceita a batalha?';
+			}
+
+			public function getBattleRequest():BattleRequest
+			{
+				return breq;
+			}
+
+			private function acceptBattle():void
+			{
+				dispatchEvent(new Event("battleAccepted"));
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="{message}"/>
+	<mx:HBox>
+		<mx:Button label="Sim"
+			click="acceptBattle()"/>
+		<mx:Button label="Não"
+			click="dispatchEvent(new CloseEvent(CloseEvent.CLOSE));"/>
+	</mx:HBox>
+</mx:TitleWindow>

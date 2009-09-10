@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="230" horizontalScrollPolicy="off"
+	verticalScrollPolicy="off" width="310" horizontalCenter="0" verticalCenter="0"
+	creationComplete="onCreationComplete()" title="Login" xmlns:char="br.com.zort.char.*">
+	<mx:Metadata>
+		[Event(name="Login")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import br.com.zort.service.UserService;
+			import br.com.zort.model.User;
+			import br.com.zort.model.Person;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.PersonService;
+			[Bindable]
+			public var toogle:Boolean = true;
+
+			[Bindable]
+			private var personProvider:ArrayCollection;
+
+			[Bindable]
+			public var loggedUser:User;
+
+			private function onCreationComplete():void
+			{
+				this.currentState = "login";
+				new PersonService(getAllPersonResult).getAllPerson();
+			}
+
+			private function getAllPersonResult(event:ResultEvent):void
+			{
+				personProvider = ArrayCollection(event.result);
+			}
+
+			private function saveUser():void
+			{
+				var user:User = new User();
+				user.login = txtLogin.text;
+				user.email = txtEmail.text;
+				user.nome = txtNome.text;
+				user.password = txtPassword.text;
+				user.person = Person(cbPerson.selectedItem);
+
+				new UserService(saveUserResult).saveUser(user);
+			}
+
+			private function saveUserResult(event:ResultEvent):void
+			{
+				Alert.show("Usuário salvo com sucesso");
+				this.currentState = "login";
+			}
+
+			private function getUserByLogin():void
+			{
+				new UserService(loginResult).getUserByLoginAndPass(txtUsuario.text, txtSenha.text);
+			}
+
+			private function loginResult(event:ResultEvent):void
+			{
+				if(event.result != null)
+				{
+					loggedUser = User(event.result);
+					loggedUser.person.newId = loggedUser.id;
+					loggedUser.person.newName = loggedUser.nome;
+					dispatchEvent(new Event("Login"));
+				}
+				else
+				{
+					Alert.show("Usuário ou senha incorretos.", "Erro");
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:transitions>
+		<mx:Transition fromState="login" toState="cadastro">
+			<mx:Resize heightTo="280" widthTo="410" target="{this}"/>
+		</mx:Transition>
+		<mx:Transition fromState="cadastro" toState="login">
+			<mx:Resize heightTo="230" widthTo="310" target="{this}"/>
+		</mx:Transition>
+	</mx:transitions>
+	<mx:states>
+		<mx:State name="login">
+			<mx:SetProperty value="310"
+				target="{this}" name="width"/>
+			<mx:SetProperty value="230"
+				target="{this}" name="height"/>
+			<mx:SetProperty value="true"
+				target="{this}" name="toogle"/>
+		</mx:State>
+		<mx:State name="cadastro">
+			<mx:SetProperty value="false"
+				target="{this}" name="toogle"/>
+		</mx:State>
+	</mx:states>
+	<mx:VBox includeInLayout="{toogle}" width="100%"
+		visible="{toogle}">
+		<mx:Form>
+			<mx:FormItem label="Usuário:">
+				<mx:TextInput id="txtUsuario"/>
+			</mx:FormItem>
+			<mx:FormItem label="Senha:">
+				<mx:TextInput id="txtSenha" displayAsPassword="true" enter="getUserByLogin()"/>
+			</mx:FormItem>
+			<mx:FormItem>
+				<mx:Button label="Entrar"
+					click="getUserByLogin()"/>
+			</mx:FormItem>
+		</mx:Form>
+		<mx:LinkButton label="Ainda não tenho cadastro" width="100%" color="0x000000"
+			textAlign="center"
+			click="this.currentState = 'cadastro'"/>
+	</mx:VBox>
+	<mx:HBox includeInLayout="{!toogle}"
+		visible="{!toogle}">
+		<mx:VBox>
+			<mx:Form>
+				<mx:FormItem label="Login:">
+					<mx:TextInput id="txtLogin"/>
+				</mx:FormItem>
+				<mx:FormItem label="Senha:">
+					<mx:TextInput id="txtPassword" displayAsPassword="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="Nome:">
+					<mx:TextInput id="txtNome"/>
+				</mx:FormItem>
+				<mx:FormItem label="Email:">
+					<mx:TextInput id="txtEmail"/>
+				</mx:FormItem>
+				<mx:HBox>
+					<mx:Button label="Voltar"
+						click="this.currentState='login'"/>
+					<mx:Button label="Salvar"
+						click="saveUser();"/>
+				</mx:HBox>
+			</mx:Form>
+		</mx:VBox>
+		<mx:VBox>
+			<mx:ComboBox id="cbPerson" dataProvider="{personProvider}" labelField="name"/>
+			<char:Char height="80" width="80"
+				person="{Person(cbPerson.selectedItem)}"/>
+		</mx:VBox>
+	</mx:HBox>
+</mx:TitleWindow>

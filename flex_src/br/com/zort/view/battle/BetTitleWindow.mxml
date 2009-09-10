@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="150" layout="vertical" width="400"
+	horizontalAlign="center" paddingTop="15" verticalGap="15" removedEffect="{Fade}" 
+	showCloseButton="true" title="Valor de aposta" creationCompleteEffect="{Fade}">
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.Fade;
+			import br.com.zort.model.Person;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+
+			public var money:int;
+			public var personToBet:Person;
+			public var bet:int;
+
+			private function makeBet():void
+			{
+				bet = int(txtAposta.text);
+				if(bet > money)
+				{
+					Alert.show("Sua aposta é maior do que seu dinheiro!", "Problema na aposta.");
+				}
+				else
+				{
+					dispatchEvent(new Event("bet"));
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:FormItem label="Valor da aposta">
+		<mx:TextInput id="txtAposta" maxChars="10"
+			restrict="0-9"/>
+	</mx:FormItem>
+	<mx:HBox>
+		<mx:Button label="Apostar"
+			click="makeBet()"/>
+		<mx:Button label="Cancelar"
+			click="dispatchEvent(new CloseEvent(CloseEvent.CLOSE));"/>
+	</mx:HBox>
+</mx:TitleWindow>

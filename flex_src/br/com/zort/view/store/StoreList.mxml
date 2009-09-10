@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	creationComplete="onCreationComplete()" title="Loja" showCloseButton="true" xmlns:local="*"
+	xmlns:item="br.com.zort.view.item.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import br.com.zort.model.Item;
+			import br.com.zort.model.User;
+			import mx.effects.Fade;
+			import br.com.zort.persistence.CollectionsPersistence;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.UserService;
+			import br.com.zort.char.Char;
+			import mx.events.DynamicEvent;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+
+			[Bindable]
+			private var dataProvider:ArrayCollection;
+
+			public var user:User;
+			private var itemhold:Item;
+
+			private function onCreationComplete():void
+			{
+				new UserService(storeItemsReturn).getStoreItems();
+			}
+
+			private function storeItemsReturn(event:ResultEvent):void
+			{
+				dataProvider = ArrayCollection(event.result);
+			}
+
+			public function buyItem(item:Item):void
+			{
+				if(user.money >= item.price)
+				{
+					itemhold = item;
+					new UserService(buyItemResult).buyItem(user, item);
+				}
+				else
+				{
+					Alert.show("Você não tem dinheiro suficiente", "Loja");
+				}
+			}
+
+			public function buyItemResult(event:ResultEvent):void
+			{
+				CollectionsPersistence.items.addItem(itemhold);
+				user.money -= itemhold.price;
+				Alert.show("Item comprado!", "Loja");
+			}
+		]]>
+	</mx:Script>
+	<mx:List dataProvider="{dataProvider}" height="100%" selectable="false" width="100%">
+		<mx:itemRenderer>
+			<mx:Component>
+				<mx:VBox horizontalAlign="center">
+					<mx:Script>
+						<![CDATA[
+							import br.com.zort.model.Item;
+						]]>
+					</mx:Script>
+					<item:ItemHolder injectData="{data}"/>
+					<mx:Button label="Comprar ${data.price}"
+						click="outerDocument.buyItem(Item(data))"/>
+					<mx:HRule width="100%"/>
+				</mx:VBox>
+			</mx:Component>
+		</mx:itemRenderer>
+	</mx:List>
+</mx:TitleWindow>

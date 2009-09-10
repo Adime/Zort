@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<char:Char xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:char="br.com.zort.char.*" click="createMenu()">
+<mx:Metadata>
+	[Event(name="battle", type="br.com.zort.char.CharEvent")]
+</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.events.MenuEvent;
+			import mx.controls.Menu;
+			
+			private function createMenu():void
+			{
+				var m:Menu = Menu.createMenu(null, menuData, false);
+				m.addEventListener(MenuEvent.ITEM_CLICK, onMenuClick);
+				m.show(stage.mouseX, stage.mouseY);
+			}
+			private function onMenuClick(event:MenuEvent):void
+			{
+				if (event.item == "Batalhar")
+				{
+					dispatchEvent(new CharEvent(CharEvent.BATTLE, person));
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:XML id="menuData">
+		<item>Batalhar</item>
+	</mx:XML>
+</char:Char>

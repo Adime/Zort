@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code:CanvasButton xmlns:mx="http://www.adobe.com/2006/mxml" height="85" width="130"
+	xmlns:code="http://code.google.com/p/flexlib/" xmlns:local="*" click="btClick(event)"
+	xmlns:controls="br.com.zort.view.controls.*">
+	<mx:Metadata>
+		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.event.SkillEvent;
+			import br.com.zort.model.Skill;
+
+			[Bindable]
+			public var skill:Skill;
+
+			public var skillHolder:SkillHolder;
+
+			public function set time(v:Number):void
+			{
+				pb.progress = v;
+			}
+
+			public function get time():Number
+			{
+				return pb.progress;
+			}
+
+			protected function btClick(event:MouseEvent):void
+			{
+				if(!dropDownAnimation.isPlaying && !bringUpAnimation.isPlaying && !skillHolder.skillLoading)
+				{
+					dropDownAnimation.duration = skill.castTime * 1000;
+					dropDownAnimation.play();
+					dispatchEvent(new SkillEvent(SkillEvent.SKILL_START));
+				}
+			}
+
+			private function onEffectEnd():void
+			{
+				var e:SkillEvent = new SkillEvent(SkillEvent.SKILL_DONE);
+				e.skill = this.skill;
+				dispatchEvent(e);
+				pb.text = "Carregando";
+				bringUpAnimation.duration = skill.delayTime * 1000;
+				bringUpAnimation.play();
+			}
+		]]>
+	</mx:Script>
+	<mx:AnimateProperty id="dropDownAnimation"
+		effectEnd="onEffectEnd()" target="{this}" property="time" fromValue="100" toValue="0"/>
+	<mx:AnimateProperty id="bringUpAnimation"
+		effectEnd="pb.text = ''" target="{this}" property="time" fromValue="0" toValue="100"/>
+	<mx:VBox height="100%" width="100%" horizontalAlign="center" verticalGap="0">
+		<mx:Label text="{skill.name}" width="100%" fontSize="14" fontWeight="bold"
+			textAlign="center"/>
+		<controls:ColorProgressBar id="pb" height="10" width="50%"
+			progress="100"/>
+		<mx:Label text="TC: {skill.castTime}" toolTip="Tempo para carregar."/>
+		<mx:Label text="TD: {skill.delayTime}" toolTip="Tempo para liberar a magia."/>
+	</mx:VBox>
+</code:CanvasButton>

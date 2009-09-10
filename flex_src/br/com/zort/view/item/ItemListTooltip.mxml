@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundColor="#fbf6e1"
+	implements="mx.core.IToolTip">
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			public var nome:String;
+			[Bindable]
+			public var tipo:String;
+			[Bindable]
+			public var defesa:String;
+			[Bindable]
+			public var ataque:String;
+
+
+			public function get text():String
+			{
+				return "";
+			}
+
+			public function set text(value:String):void
+			{
+
+			}
+		]]>
+	</mx:Script>
+	<mx:Style>
+		.vermelho
+		{
+			color: #FF0000;
+		}
+	</mx:Style>
+	<mx:Form paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" verticalGap="0">
+		<mx:FormItem label="Nome:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{nome}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Tipo:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{tipo}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Defesa:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{defesa}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Ataque:" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{ataque}"/>
+		</mx:FormItem>
+	</mx:Form>
+</mx:Canvas>
