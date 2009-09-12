@@ -19,7 +19,7 @@ package br.com.zort.model
 
 		public function generateProtocol():String
 		{
-			return StringHelper.parseIt(getClassName(), this.id);
+			return StringHelper.parseIt(getClassName(), this.id, name, description, castTime, delayTime, attack, defense);
 		}
 
 		public function fillFromProtocol(protocol:String):*
@@ -27,6 +27,12 @@ package br.com.zort.model
 			var array:Array = protocol.split(';');
 
 			this.id = array[1];
+			this.name = array[2];
+			this.description = array[3];
+			this.castTime = array[4];
+			this.delayTime = array[5];
+			this.attack = array[6];
+			this.defense = array[7];
 
 			return this;
 		}

@@ -31,5 +31,5 @@
 
 	</mx:HBox>
 	<mx:Label text="Golpes" width="100%" textAlign="center"/>
-	<battle:SkillHolder dataProvider="{robot.skills}" width="100%"/>
+	<battle:SkillHolder dataProvider="{robot.skills}" enabled="false" width="100%"/>
 </mx:VBox>

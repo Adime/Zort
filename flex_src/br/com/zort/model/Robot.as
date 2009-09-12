@@ -1,7 +1,7 @@
 package br.com.zort.model
 {
 	import br.com.zort.helper.StringHelper;
-	
+
 	import mx.collections.ArrayCollection;
 
 	[RemoteClass(alias="br.com.zort.model.Robot")]
@@ -20,11 +20,22 @@ package br.com.zort.model
 		public var legs:Item;
 		public var feet:Item;
 
-		public var skills:ArrayCollection;
+		public var skills:ArrayCollection = new ArrayCollection();
+
+		[Transient]
+		private var _attack:int = 0;
+		[Transient]
+		private var _defense:int = 0;
 
 		public function generateProtocol():String
 		{
-			return StringHelper.parseIt(getClassName(), this.id);
+			var temp:String = "";
+			for each(var s:Skill in skills)
+			{
+				temp += s.generateProtocol().replace('$', '#');
+			}
+
+			return StringHelper.parseIt(getClassName(), this.id, this.hp, this.level, this.image, attack, defense, skills.length, temp);
 		}
 
 		public function fillFromProtocol(protocol:String):*
@@ -32,6 +43,24 @@ package br.com.zort.model
 			var array:Array = protocol.split(';');
 
 			this.id = array[1];
+			this.hp = array[2];
+			this.level = array[3];
+			this.image = array[4];
+			this._attack = array[5];
+			this._defense = array[6];
+			var length:int = array[7];
+
+			var i:uint = 8;
+			while(length > 0)
+			{
+				var temp:String = "";
+				for(var j = 0; j < 8; j++)
+				{
+					temp += array[i++] + ';';
+				}
+				skills.addItem(new Skill().fillFromProtocol(temp));
+				length--;
+			}
 
 			return this;
 		}
@@ -40,9 +69,9 @@ package br.com.zort.model
 		{
 			return "$ROBOT";
 		}
-		
+
 		//aux methods
-		
+
 		private function calculate(field:String):int
 		{
 			var aux:int = 0;
@@ -52,7 +81,7 @@ package br.com.zort.model
 			aux += update(rightHand, field);
 			aux += update(legs, field);
 			aux += update(feet, field);
-			
+
 			return aux;
 		}
 
@@ -64,13 +93,29 @@ package br.com.zort.model
 			}
 			return 0;
 		}
+
 		public function get attack():int
 		{
-			return calculate("attack");
+			if(_attack == 0)
+			{
+				return calculate("attack");
+			}
+			else
+			{
+				return _attack;
+			}
 		}
+
 		public function get defense():int
 		{
-			return calculate("defense");
+			if(_defense == 0)
+			{
+				return calculate("defense");
+			}
+			else
+			{
+				return _defense;
+			}
 		}
 	}
 }

@@ -11,5 +11,6 @@ package br.com.zort.messaging
 		public static const REQUESTPOSITION:String = "REQUESTPOSITION;";
 		public static const LOGGEDOUT:String = "LOGGEDOUT;";
 		public static const BATTLEREQUEST:String = "BATTLEREQUEST;";
+		public static const BATTLEACCEPTED:String = "BATTLEACCEPTED;";
 	}
 }

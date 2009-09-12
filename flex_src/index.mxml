@@ -10,6 +10,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.Robot;
 			import br.com.zort.view.battle.BattleRequestResponse;
 			import br.com.zort.model.BattleRequest;
 			import br.com.zort.view.battle.BetTitleWindow;
@@ -47,6 +48,10 @@
 			private var popupStoreList:StoreList;
 			private var popupBet:BetTitleWindow;
 			private var popupBattleRequest:BattleRequestResponse;
+
+			[Bindable]
+			private var enemyRobot:Robot;
+			private var enemyPerson:Person;
 
 			private function getMapById(id:int):void
 			{
@@ -232,9 +237,10 @@
 				var breq:BattleRequest = new BattleRequest();
 				breq.battleOrigin = loginView.loggedUser.person;
 				breq.battleDestin = pb.personToBet;
+				enemyPerson = pb.personToBet;
 				breq.betValue = pb.bet;
 
-				message.sendBattleRequest(breq);
+				message.sendBattleRequest(breq, loginView.loggedUser.robot);
 				PopUpManager.removePopUp(popupBet);
 				popupBet = null;
 			}
@@ -278,14 +284,16 @@
 				popupStoreList = null;
 			}
 
-			protected function onBattleRequestReceive(event:MessagingEvent):void
+			protected function onBattleRequest(event:MessagingEvent):void
 			{
 				var breq:BattleRequest = ClassHelper.getClassByType(event.classes, BattleRequest);
+				enemyPerson = breq.battleOrigin;
+				enemyRobot = ClassHelper.getClassByType(event.classes, Robot);
 				popupBattleRequest = BattleRequestResponse(PopUpManager.createPopUp(this, BattleRequestResponse, true));
 				popupBattleRequest.setBattleRequest(breq);
 				PopUpManager.centerPopUp(popupBattleRequest);
 				popupBattleRequest.addEventListener(CloseEvent.CLOSE, onBattleRequestClose);
-				popupBattleRequest.addEventListener("battleAccepted", onBattleAccepted);
+				popupBattleRequest.addEventListener("battleAccepted", onBattleRequestAccepted);
 			}
 
 			private function onBattleRequestClose(event:CloseEvent):void
@@ -294,9 +302,18 @@
 				popupBattleRequest = null;
 			}
 
-			private function onBattleAccepted(event:Event):void
+			private function onBattleRequestAccepted(event:Event):void
 			{
 				var brr:BattleRequestResponse = BattleRequestResponse(event.currentTarget);
+				message.sendBattleAccepted(brr.getBattleRequest(), loginView.loggedUser.robot);
+				vs.selectedIndex = 2;
+				onBattleRequestClose(null);
+			}
+
+			private function onBattleAccepted(event:MessagingEvent):void
+			{
+				enemyRobot = ClassHelper.getClassByType(event.classes, Robot);
+				vs.selectedIndex = 2;
 			}
 		]]>
 	</mx:Script>
@@ -313,13 +330,13 @@
 	<messaging:Message id="message" LOGGEDIN="onLoggedIn(event)" POSITION="onPosition(event)"
 		TELEPORTED="onTeleported(event)" MESSAGING="onMessagingReceive(event)"
 		LOGGEDOUT="onLoggedOut(event)" PRIVATEMESSAGE="onMessagingReceive(event)"
-		BATTLEREQUEST="onBattleRequestReceive(event)"/>
+		BATTLEREQUEST="onBattleRequest(event)" BATTLEACCEPTED="onBattleAccepted(event)"/>
 	<mx:ViewStack id="vs" height="600" width="900">
 		<mx:Canvas height="100%" width="100%" hideEffect="{hideEffect}">
 			<login:Login id="loginView" Login="onLogin()"/>
 		</mx:Canvas>
 		<mx:VBox height="100%" width="100%" horizontalAlign="center" verticalAlign="middle"
-			showEffect="{showEffect}">
+			hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<mx:Canvas id="container" height="420" width="100%">
 				<map:MapHolder id="holder" height="100%" width="100%" borderStyle="solid"
 					creationComplete="mapCreated();" teleport="onTeleportJoin(event)"
@@ -331,8 +348,6 @@
 					y="{container.height-200-3}" backgroundAlpha="0.5"
 					typeText="onTypedText(event)"/>
 				<mx:HBox horizontalAlign="right" right="5" top="5">
-					<mx:Button label="battle"
-						click="vs.selectedIndex = 2"/>
 					<mx:Button label="Loja"
 						click="addStoreList()"/>
 					<mx:Button label="Robo"
@@ -345,12 +360,13 @@
 				<mx:Label text="$ {loginView.loggedUser.money}" color="#FFFFFF" left="5" top="5"/>
 			</mx:Canvas>
 		</mx:VBox>
-		<mx:HBox height="100%" width="100%">
+		<mx:HBox height="420" width="100%" horizontalAlign="center" verticalAlign="middle"
+			hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<battle:BattleRobot height="100%" width="100%"
 				robot="{loginView.loggedUser.robot}"/>
 			<mx:VRule height="100%"/>
 			<battle:BattleRobot height="100%" width="100%"
-				robot="{loginView.loggedUser.robot}"/>
+				robot="{enemyRobot}"/>
 		</mx:HBox>
 	</mx:ViewStack>
 </mx:Application>
