@@ -15,6 +15,8 @@
 
 			public var skillHolder:SkillHolder;
 
+			public var skillEnable:Boolean;
+
 			public function set time(v:Number):void
 			{
 				pb.progress = v;
@@ -25,20 +27,29 @@
 				return pb.progress;
 			}
 
+			public function start():void
+			{
+				animateIt();
+			}
+
 			protected function btClick(event:MouseEvent):void
 			{
-				if(!dropDownAnimation.isPlaying && !bringUpAnimation.isPlaying && !skillHolder.skillLoading)
+				if(skillEnable && !dropDownAnimation.isPlaying && !bringUpAnimation.isPlaying && !skillHolder.skillLoading)
 				{
-					dropDownAnimation.duration = skill.castTime * 1000;
-					dropDownAnimation.play();
-					dispatchEvent(new SkillEvent(SkillEvent.SKILL_START));
+					animateIt();
 				}
+			}
+
+			protected function animateIt():void
+			{
+				dropDownAnimation.duration = skill.castTime * 1000;
+				dropDownAnimation.play();
+				dispatchEvent(new SkillEvent(SkillEvent.SKILL_START, skill));
 			}
 
 			private function onEffectEnd():void
 			{
-				var e:SkillEvent = new SkillEvent(SkillEvent.SKILL_DONE);
-				e.skill = this.skill;
+				var e:SkillEvent = new SkillEvent(SkillEvent.SKILL_DONE, skill);
 				dispatchEvent(e);
 				pb.text = "Carregando";
 				bringUpAnimation.duration = skill.delayTime * 1000;

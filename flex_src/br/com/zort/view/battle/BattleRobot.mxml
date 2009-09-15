@@ -1,35 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*"
 	xmlns:battle="br.com.zort.view.battle.*" xmlns:controls="br.com.zort.view.controls.*">
+	<mx:Metadata>
+		[Event(name="skillStart",type="br.com.zort.event.SkillEvent")]
+		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
+	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.Skill;
+			import br.com.zort.event.SkillEvent;
 			import br.com.zort.model.Robot;
 
+			private var _robot:Robot;
+
 			[Bindable]
-			public var robot:Robot;
+			private var maxHP:int;
+
+			[Bindable]
+			public function set robot(v:Robot):void
+			{
+				_robot = v;
+				maxHP = v.hp;
+			}
+
+			public function get robot():Robot
+			{
+				return _robot;
+			}
+
+			[Bindable]
+			public var skillEnable:Boolean = true;
+
+			private function onSkillStart(event:SkillEvent):void
+			{
+				dispatchEvent(event);
+			}
+
+			public function startSkill(skill:Skill):void
+			{
+				skillHolder.startSkill(skill);
+			}
+
+			public function onSkillDone(event:SkillEvent):void
+			{
+				dispatchEvent(event);
+			}
+
+			public function calculateDamage(event:SkillEvent):void
+			{
+				var newHP:int = robot.hp - event.skill.attack;
+				damage.text = "-" + event.skill.attack;
+				if(newHP < 0)
+				{
+					newHP = 0;
+				}
+
+				robot.hp = newHP;
+			}
 		]]>
 	</mx:Script>
-	<mx:HBox width="100%">
+	<mx:Canvas width="100%">
 
-		<mx:Image height="100%" width="100%"/>
+		<mx:Text id="damage" width="{img.width}" y="{img.height/2-damage.height/2}" color="0xFF0000"
+			fontWeight="bold" textAlign="center"/>
+		<mx:HBox width="100%">
 
-		<mx:Form width="100%">
-			<mx:FormItem label="Vida:">
-				<controls:ColorProgressBar height="17" width="160"
-					progress="100"/>
-			</mx:FormItem>
-			<mx:FormItem label="Level:">
-				<mx:Label text="{robot.level}"/>
-			</mx:FormItem>
-			<mx:FormItem label="Ataque:">
-				<mx:Label text="{robot.attack}"/>
-			</mx:FormItem>
-			<mx:FormItem label="Defesa:">
-				<mx:Label text="{robot.defense}"/>
-			</mx:FormItem>
-		</mx:Form>
+			<mx:Image id="img" height="100%" width="100%"/>
 
-	</mx:HBox>
+			<mx:Form width="100%">
+				<mx:FormItem label="Vida:">
+					<controls:ColorProgressBar height="17" text="{robot.hp}/{maxHP}" width="160"
+						progress="{robot.hp/maxHP*100}"/>
+				</mx:FormItem>
+				<mx:FormItem label="Level:">
+					<mx:Label text="{robot.level}"/>
+				</mx:FormItem>
+				<mx:FormItem label="Ataque:">
+					<mx:Label text="{robot.attack}"/>
+				</mx:FormItem>
+				<mx:FormItem label="Defesa:">
+					<mx:Label text="{robot.defense}"/>
+				</mx:FormItem>
+			</mx:Form>
+
+		</mx:HBox>
+	</mx:Canvas>
 	<mx:Label text="Golpes" width="100%" textAlign="center"/>
-	<battle:SkillHolder dataProvider="{robot.skills}" enabled="false" width="100%"/>
+	<battle:SkillHolder id="skillHolder" dataProvider="{robot.skills}" width="100%"
+		skillStart="onSkillStart(event);" skillEnable="{skillEnable}"
+		skillDone="onSkillDone(event);"/>
 </mx:VBox>

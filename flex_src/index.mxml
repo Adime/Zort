@@ -10,6 +10,8 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.Skill;
+			import br.com.zort.event.SkillEvent;
 			import br.com.zort.model.Robot;
 			import br.com.zort.view.battle.BattleRequestResponse;
 			import br.com.zort.model.BattleRequest;
@@ -315,6 +317,17 @@
 				enemyRobot = ClassHelper.getClassByType(event.classes, Robot);
 				vs.selectedIndex = 2;
 			}
+
+			private function onSkillStart(event:SkillEvent):void
+			{
+				message.sendSkillStart(event.skill, enemyPerson);
+			}
+
+			private function onEnemySkillStart(event:MessagingEvent):void
+			{
+				var skill:Skill = ClassHelper.getClassByType(event.classes, Skill);
+				enemyBattleRobot.startSkill(skill);
+			}
 		]]>
 	</mx:Script>
 
@@ -330,7 +343,8 @@
 	<messaging:Message id="message" LOGGEDIN="onLoggedIn(event)" POSITION="onPosition(event)"
 		TELEPORTED="onTeleported(event)" MESSAGING="onMessagingReceive(event)"
 		LOGGEDOUT="onLoggedOut(event)" PRIVATEMESSAGE="onMessagingReceive(event)"
-		BATTLEREQUEST="onBattleRequest(event)" BATTLEACCEPTED="onBattleAccepted(event)"/>
+		BATTLEREQUEST="onBattleRequest(event)" BATTLEACCEPTED="onBattleAccepted(event)"
+		BATTLEFIELDSKILLSTART="onEnemySkillStart(event)"/>
 	<mx:ViewStack id="vs" height="600" width="900">
 		<mx:Canvas height="100%" width="100%" hideEffect="{hideEffect}">
 			<login:Login id="loginView" Login="onLogin()"/>
@@ -362,11 +376,13 @@
 		</mx:VBox>
 		<mx:HBox height="420" width="100%" horizontalAlign="center" verticalAlign="middle"
 			hideEffect="{hideEffect}" showEffect="{showEffect}">
-			<battle:BattleRobot height="100%" width="100%"
-				robot="{loginView.loggedUser.robot}"/>
+			<battle:BattleRobot id="myBattleRobot" height="100%" width="100%"
+				robot="{loginView.loggedUser.robot}" skillStart="onSkillStart(event);"
+				skillDone="enemyBattleRobot.calculateDamage(event)"/>
 			<mx:VRule height="100%"/>
-			<battle:BattleRobot height="100%" width="100%"
-				robot="{enemyRobot}"/>
+			<battle:BattleRobot id="enemyBattleRobot" height="100%" width="100%"
+				robot="{enemyRobot}" skillEnable="false"
+				skillDone="myBattleRobot.calculateDamage(event)"/>
 		</mx:HBox>
 	</mx:ViewStack>
 </mx:Application>

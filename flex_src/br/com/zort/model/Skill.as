@@ -41,5 +41,10 @@ package br.com.zort.model
 		{
 			return "$SKILL";
 		}
+
+		public function compare(skill:Skill):Boolean
+		{
+			return(this.id == skill.id);
+		}
 	}
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
 	<mx:Metadata>
-		[Event("SKILLSTART","")]
-		[Event("SKILLEND","")]
+		[Event(name="skillStart",type="br.com.zort.event.SkillEvent")]
+		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
@@ -16,6 +16,8 @@
 			private var isDataProviderChanged:Boolean = false;
 
 			public var skillLoading:Boolean = false;
+
+			public var skillEnable:Boolean;
 
 			public function set dataProvider(v:ArrayCollection):void
 			{
@@ -49,6 +51,7 @@
 							tempRow += 1;
 						}
 						var sb:SkillButton = new SkillButton();
+						sb.skillEnable = skillEnable;
 						sb.skill = skill;
 						sb.skillHolder = this;
 						sb.addEventListener(SkillEvent.SKILL_DONE, onSkillDone);
@@ -65,11 +68,25 @@
 			private function onSkillStart(event:SkillEvent):void
 			{
 				skillLoading = true;
+				dispatchEvent(new SkillEvent(SkillEvent.SKILL_START, event.skill));
 			}
 
 			private function onSkillDone(event:SkillEvent):void
 			{
 				skillLoading = false;
+				dispatchEvent(event);
+			}
+
+			public function startSkill(skill:Skill):void
+			{
+				for each(var sb:SkillButton in this.getChildren())
+				{
+					if(sb.skill.compare(skill))
+					{
+						sb.start();
+						break;
+					}
+				}
 			}
 		]]>
 	</mx:Script>

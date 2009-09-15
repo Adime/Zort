@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="20" clipContent="false">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" clipContent="false" height="20">
 	<mx:Script>
 		<![CDATA[
-		
-		private var isProgressChanged:Boolean = false;
-		private var _progress:Number;
-		
-		[Bindable]
-		public var text:String;
-		
-		public function set progress(v:Number):void
-		{
-			if (v >= 0 && v <= 100)
+			private var isProgressChanged:Boolean = false;
+			private var _progress:Number;
+
+			[Bindable]
+			public var text:String;
+
+			public function set progress(v:Number):void
 			{
-				_progress = v;
-				isProgressChanged = true;
-				invalidateDisplayList();
+				if(v >= 0 && v <= 100)
+				{
+					_progress = v;
+					isProgressChanged = true;
+					invalidateDisplayList();
+				}
 			}
-		}
-		public function get progress():Number
-		{
-			return _progress;
-		}
-			
-			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number) : void
+
+			public function get progress():Number
+			{
+				return _progress;
+			}
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 			{
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
-				
-				if (isProgressChanged)
+
+				if(isProgressChanged)
 				{
 					isProgressChanged = false;
-					
-					var percent:Number = progress/100;
+
+					var percent:Number = progress / 100;
 					var color:uint;
-					if (percent >=0.9)
+					if(percent >= 0.9)
 					{
-						color = 0x00FF00;					
+						color = 0x00FF00;
 					}
-					if (percent>=0.4 && percent < 0.9)
+					if(percent >= 0.4 && percent < 0.9)
 					{
 						color = 0xFFFF00;
 					}
-					if (percent >= 0.1 && percent <0.4)
+					if(percent >= 0.1 && percent < 0.4)
 					{
 						color = 0xFF8800;
 					}
-					if (percent < 0.1)
+					if(percent < 0.1)
 					{
 						color = 0xFF0000;
 					}
-					
+
 					graphics.clear();
-					graphics.lineStyle(1,color);
-					graphics.drawRect(0,0,width,height);
+					graphics.lineStyle(1, color);
+					graphics.drawRect(0, 0, width, height);
 					graphics.beginFill(color);
-					graphics.drawRect(0,0,width*percent,height);
+					graphics.drawRect(0, 0, width * percent, height);
 				}
 			}
 		]]>
 	</mx:Script>
-	<mx:Label width="100%" height="100%" textAlign="center" text="{text}" fontSize="10" verticalCenter="0" horizontalCenter="0"/>
+	<mx:Label height="100%" text="{text}" width="100%" color="0x000000" fontSize="10"
+		horizontalCenter="0" textAlign="center" verticalCenter="0"/>
 </mx:Canvas>

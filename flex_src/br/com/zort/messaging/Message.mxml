@@ -11,10 +11,12 @@
 		[Event(name="PRIVATEMESSAGE",type="br.com.zort.messaging.event.MessagingEvent")]
 		[Event(name="BATTLEREQUEST",type="br.com.zort.messaging.event.MessagingEvent")]
 		[Event(name="BATTLEACCEPTED",type="br.com.zort.messaging.event.MessagingEvent")]
+		[Event(name="BATTLEFIELDSKILLSTART",type="br.com.zort.messaging.event.MessagingEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.Skill;
 			import br.com.zort.model.Robot;
 			import br.com.zort.model.BattleRequest;
 			import br.com.zort.model.PrivateTalk;
@@ -102,6 +104,11 @@
 			public function sendBattleAccepted(betRequest:BattleRequest, robot:Robot):void
 			{
 				socket.send(MessageConst.BATTLEACCEPTED + betRequest.generateProtocol() + robot.generateProtocol());
+			}
+
+			public function sendSkillStart(skill:Skill, person:Person):void
+			{
+				socket.send(MessageConst.SKILLSTART + person.generateProtocol() + skill.generateProtocol());
 			}
 		]]>
 	</mx:Script>
