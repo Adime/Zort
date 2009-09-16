@@ -28,6 +28,9 @@ public class User implements Serializable {
 	
 	@OneToOne
 	private Robot robot;
+	
+	private Integer wins;
+	private Integer loses;
 
 	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
 	private List<Item> items;
@@ -106,5 +109,20 @@ public class User implements Serializable {
 	public void setMoney(Integer money) {
 		this.money = money;
 	}
-	
+
+	public Integer getWins() {
+		return wins;
+	}
+
+	public void setWins(Integer wins) {
+		this.wins = wins;
+	}
+
+	public Integer getLoses() {
+		return loses;
+	}
+
+	public void setLoses(Integer loses) {
+		this.loses = loses;
+	}
 }

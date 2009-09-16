@@ -4,6 +4,8 @@
 	<mx:Metadata>
 		[Event(name="skillStart",type="br.com.zort.event.SkillEvent")]
 		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
+		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
+		[Event(name="endGame", type="flash.events.Event")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
@@ -17,10 +19,14 @@
 			private var maxHP:int;
 
 			[Bindable]
+			private var currentHP:int;
+
+			[Bindable]
 			public function set robot(v:Robot):void
 			{
 				_robot = v;
 				maxHP = v.hp;
+				currentHP = maxHP;
 			}
 
 			public function get robot():Robot
@@ -48,17 +54,31 @@
 
 			public function calculateDamage(event:SkillEvent):void
 			{
-				var newHP:int = robot.hp - event.skill.attack;
+				var newHP:int = currentHP - event.skill.attack;
 				damage.text = "-" + event.skill.attack;
 				if(newHP < 0)
 				{
 					newHP = 0;
 				}
 
-				robot.hp = newHP;
+				currentHP = newHP;
+				parallel.play();
+
+				//FIM DE JOGO!!!
+				if(newHP == 0)
+				{
+					dispatchEvent(new Event("endGame"));
+				}
 			}
 		]]>
 	</mx:Script>
+
+	<mx:Parallel id="parallel">
+		<mx:Move target="{damage}" xFrom="0" xTo="{15}" yFrom="{img.height/2-damage.height/2}"
+			yTo="{damage.y - 15}"/>
+		<mx:Fade target="{damage}" alphaFrom="1" alphaTo="0"/>
+	</mx:Parallel>
+
 	<mx:Canvas width="100%">
 
 		<mx:Text id="damage" width="{img.width}" y="{img.height/2-damage.height/2}" color="0xFF0000"
@@ -69,8 +89,8 @@
 
 			<mx:Form width="100%">
 				<mx:FormItem label="Vida:">
-					<controls:ColorProgressBar height="17" text="{robot.hp}/{maxHP}" width="160"
-						progress="{robot.hp/maxHP*100}"/>
+					<controls:ColorProgressBar height="17" text="{currentHP}/{maxHP}" width="160"
+						progress="{currentHP/maxHP*100}"/>
 				</mx:FormItem>
 				<mx:FormItem label="Level:">
 					<mx:Label text="{robot.level}"/>

@@ -10,6 +10,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.view.battle.BattleEndMessage;
 			import br.com.zort.model.Skill;
 			import br.com.zort.event.SkillEvent;
 			import br.com.zort.model.Robot;
@@ -328,6 +329,21 @@
 				var skill:Skill = ClassHelper.getClassByType(event.classes, Skill);
 				enemyBattleRobot.startSkill(skill);
 			}
+
+			private function endGame(message:String):void
+			{
+				var b:BattleEndMessage = BattleEndMessage(PopUpManager.createPopUp(this, BattleEndMessage));
+				b.addEventListener("finishedBattle", onFinishedBattle);
+				b.width = this.width;
+				b.height = 420;
+				PopUpManager.centerPopUp(b);
+				b.text = message;
+			}
+
+			private function onFinishedBattle(event:Event):void
+			{
+				vs.selectedIndex = 1;
+			}
 		]]>
 	</mx:Script>
 
@@ -378,10 +394,10 @@
 			hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<battle:BattleRobot id="myBattleRobot" height="100%" width="100%"
 				robot="{loginView.loggedUser.robot}" skillStart="onSkillStart(event);"
-				skillDone="enemyBattleRobot.calculateDamage(event)"/>
+				skillDone="enemyBattleRobot.calculateDamage(event)" endGame="endGame('PERDEU')"/>
 			<mx:VRule height="100%"/>
 			<battle:BattleRobot id="enemyBattleRobot" height="100%" width="100%"
-				robot="{enemyRobot}" skillEnable="false"
+				robot="{enemyRobot}" skillEnable="false" endGame="endGame('GANHOU');"
 				skillDone="myBattleRobot.calculateDamage(event)"/>
 		</mx:HBox>
 	</mx:ViewStack>

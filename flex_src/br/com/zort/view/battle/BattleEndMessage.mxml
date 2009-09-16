@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="canvas1_creationCompleteHandler(event)">
+	<mx:Metadata>
+		[Event(name="finishedBattle", type="flash.events.Event")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var text:String;
+
+			protected function canvas1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var t:Timer = new Timer(2000, 1);
+				t.addEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
+				t.start();
+			}
+
+			protected function onTimerComplete(event:TimerEvent):void
+			{
+				hideIt.play();
+			}
+
+			private function closeIt():void
+			{
+				dispatchEvent(new Event("finishedBattle"));
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+	<mx:Fade id="hideIt"
+		effectEnd="closeIt()" target="{this}" alphaFrom="1" alphaTo="0"/>
+	<mx:Text text="{text}" color="0xFFFFFF" fontSize="40" fontWeight="bold" horizontalCenter="0"
+		verticalCenter="0"/>
+</mx:Canvas>

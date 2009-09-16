@@ -16,6 +16,9 @@ package br.com.zort.model
 
 		public var robot:Robot;
 
+		public var wins:int;
+		public var loses:int;
+
 		public var items:ArrayCollection;
 
 		public var money:int;
