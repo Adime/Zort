@@ -10,6 +10,8 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.User;
+			import br.com.zort.service.UserService;
 			import br.com.zort.view.battle.BattleEndMessage;
 			import br.com.zort.model.Skill;
 			import br.com.zort.event.SkillEvent;
@@ -55,6 +57,7 @@
 			[Bindable]
 			private var enemyRobot:Robot;
 			private var enemyPerson:Person;
+			private var breq:BattleRequest;
 
 			private function getMapById(id:int):void
 			{
@@ -308,6 +311,7 @@
 			private function onBattleRequestAccepted(event:Event):void
 			{
 				var brr:BattleRequestResponse = BattleRequestResponse(event.currentTarget);
+				breq = brr.getBattleRequest();
 				message.sendBattleAccepted(brr.getBattleRequest(), loginView.loggedUser.robot);
 				vs.selectedIndex = 2;
 				onBattleRequestClose(null);
@@ -316,6 +320,7 @@
 			private function onBattleAccepted(event:MessagingEvent):void
 			{
 				enemyRobot = ClassHelper.getClassByType(event.classes, Robot);
+				breq = ClassHelper.getClassByType(event.classes, BattleRequest);
 				vs.selectedIndex = 2;
 			}
 
@@ -338,6 +343,23 @@
 				b.height = 420;
 				PopUpManager.centerPopUp(b);
 				b.text = message;
+			}
+
+			private function youWin():void
+			{
+				endGame('GANHOU');
+				new UserService(updateUser).setUserWin(loginView.loggedUser, breq.betValue, enemyRobot.level);
+			}
+
+			private function youLose():void
+			{
+				endGame('PERDEU');
+				new UserService(updateUser).setUserLose(loginView.loggedUser, breq.betValue);
+			}
+
+			private function updateUser(event:ResultEvent):void
+			{
+				loginView.loggedUser = User(event.result);
 			}
 
 			private function onFinishedBattle(event:Event):void
@@ -394,11 +416,12 @@
 			hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<battle:BattleRobot id="myBattleRobot" height="100%" width="100%"
 				robot="{loginView.loggedUser.robot}" skillStart="onSkillStart(event);"
-				skillDone="enemyBattleRobot.calculateDamage(event)" endGame="endGame('PERDEU')"/>
+				skillDone="enemyBattleRobot.calculateDamage(event, loginView.loggedUser.robot)"
+				endGame="youLose()"/>
 			<mx:VRule height="100%"/>
 			<battle:BattleRobot id="enemyBattleRobot" height="100%" width="100%"
-				robot="{enemyRobot}" skillEnable="false" endGame="endGame('GANHOU');"
-				skillDone="myBattleRobot.calculateDamage(event)"/>
+				robot="{enemyRobot}" skillEnable="false" endGame="youWin()"
+				skillDone="myBattleRobot.calculateDamage(event, enemyRobot)"/>
 		</mx:HBox>
 	</mx:ViewStack>
 </mx:Application>

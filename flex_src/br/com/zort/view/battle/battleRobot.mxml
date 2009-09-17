@@ -52,10 +52,19 @@
 				dispatchEvent(event);
 			}
 
-			public function calculateDamage(event:SkillEvent):void
+			public function calculateDamage(event:SkillEvent, enemy:Robot):void
 			{
-				var newHP:int = currentHP - event.skill.attack;
-				damage.text = "-" + event.skill.attack;
+				var att:int = ((enemy.attack + event.skill.attack) * enemy.level) / 10
+				var def:int = (_robot.defense * _robot.level) / 7;
+				var dano:int = att - def;
+
+				if(dano <= 0)
+				{
+					dano = 1;
+				}
+
+				var newHP:int = currentHP - dano;
+				damage.text = "-" + dano;
 				if(newHP < 0)
 				{
 					newHP = 0;
@@ -73,7 +82,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:Parallel id="parallel">
+	<mx:Parallel id="parallel" duration="2000">
 		<mx:Move target="{damage}" xFrom="0" xTo="{15}" yFrom="{img.height/2-damage.height/2}"
 			yTo="{damage.y - 15}"/>
 		<mx:Fade target="{damage}" alphaFrom="1" alphaTo="0"/>

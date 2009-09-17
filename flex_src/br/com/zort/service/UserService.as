@@ -3,7 +3,7 @@ package br.com.zort.service
 	import br.com.zort.model.Item;
 	import br.com.zort.model.Robot;
 	import br.com.zort.model.User;
-	
+
 	import mx.rpc.events.ResultEvent;
 
 	public class UserService extends Service
@@ -75,13 +75,35 @@ package br.com.zort.service
 		{
 			doCallBack(event);
 		}
+
 		public function removeItemFromUser(i:Item):void
 		{
 			service.removeItemFromUser(i);
 		}
+
 		public function remoteItemFromUserResult(event:ResultEvent):void
 		{
-			doCallBack(event);	
+			doCallBack(event);
+		}
+
+		public function setUserWin(u:User, money:int, enemyLevel:int):void
+		{
+			service.setUserWin(u, money, enemyLevel);
+		}
+
+		public function setUserWinResult(event:ResultEvent):void
+		{
+			doCallBack(event);
+		}
+
+		public function setUserLose(u:User, money:int):void
+		{
+			service.setUserLose(u, money);
+		}
+
+		public function setUserLoseResult(event:ResultEvent):void
+		{
+			doCallBack(event);
 		}
 
 		public function doCallBack(event:ResultEvent):void

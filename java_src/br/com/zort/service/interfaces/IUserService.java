@@ -31,4 +31,10 @@ public interface IUserService {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	void removeItemFromUser(Item i);
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	User setUserWin(User u, Integer money, Integer enemyLevel);
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	User setUserLose(User u, Integer money);
 }

@@ -2,6 +2,7 @@ package br.com.zort.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,7 @@ public class UserService implements IUserService{
 		Robot r = new Robot();
 		r.setHp(200);
 		r.setImage("robo1");
-		r.setLevel(0);
+		r.setLevel(1);
 		
 		return robotDAO.saveOrUpdate(r);
 	}
@@ -112,6 +113,20 @@ public class UserService implements IUserService{
 	{
 		i.setUser(null);
 		itemDAO.saveOrUpdate(i);
+	}
+
+	public User setUserLose(User u, Integer money) {
+		u.setLoses(u.getLoses() + 1);
+		u.setMoney(u.getMoney() - money);
+		return userDAO.addOrUpdate(u);
+	}
+
+	public User setUserWin(User u, Integer money, Integer enemyLevel) {
+		u.setWins(u.getWins() + 1);
+		Random r = new Random(System.currentTimeMillis());
+		money += r.nextInt(enemyLevel) * 100;
+		u.setMoney(u.getMoney() + money);
+		return userDAO.addOrUpdate(u);
 	}
 	
 }
