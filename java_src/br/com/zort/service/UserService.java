@@ -43,7 +43,7 @@ public class UserService implements IUserService{
 	}
 
 	public void saveUser(User user) {
-		user.setRobot(createRobot());
+		user.setRobot(updateRobot(user.getRobot()));
 		user.setMoney(1000);
 		user = userDAO.addOrUpdate(user);
 		createSkills(user);
@@ -53,36 +53,41 @@ public class UserService implements IUserService{
 		List<Skill> skills = new ArrayList<Skill>();
 		
 		Skill s1 = new Skill();
-		s1.setAttack(20);
+		s1.setType("Attack");
+		s1.setValue(20);
 		s1.setCastTime(3);
-		s1.setDefense(0);
 		s1.setDelayTime(3);
 		s1.setDescription("Golpe fraco");
 		s1.setName("Golpe fraco");
 		s1.setRobot(user.getRobot());
 		
 		Skill s2 = new Skill();
-		s2.setAttack(35);
+		s2.setType("Attack");
+		s2.setValue(35);
 		s2.setCastTime(5);
-		s2.setDefense(0);
 		s2.setDelayTime(5);
 		s2.setDescription("Golpe forte");
 		s2.setName("Golpe forte");
 		s2.setRobot(user.getRobot());
+
+		Skill s3 = new Skill();
+		s3.setType("Heal");
+		s3.setValue(50);
+		s3.setCastTime(5);
+		s3.setDelayTime(25);
+		s3.setDescription("Heal Fraco");
+		s3.setName("Heal Fraco");
+		s3.setRobot(user.getRobot());
 		
 		skills.add(s1);
 		skills.add(s2);
+		skills.add(s3);
 		
 		skillDAO.saveOrUpdate(skills);
 	}
 
-	private Robot createRobot()
+	private Robot updateRobot(Robot r)
 	{
-		Robot r = new Robot();
-		r.setHp(200);
-		r.setImage("robo1");
-		r.setLevel(1);
-		
 		return robotDAO.saveOrUpdate(r);
 	}
 	
@@ -125,8 +130,31 @@ public class UserService implements IUserService{
 		u.setWins(u.getWins() + 1);
 		Random r = new Random(System.currentTimeMillis());
 		money += r.nextInt(enemyLevel) * 100;
+		u = updateExpAndHpAndLevel(u, enemyLevel);
+		robotDAO.saveOrUpdate(u.getRobot());
+		
 		u.setMoney(u.getMoney() + money);
+		
 		return userDAO.addOrUpdate(u);
 	}
 	
+	protected User updateExpAndHpAndLevel(User u, Integer enemyLevel)
+	{
+		Robot r = u.getRobot();
+		Integer exp = r.getExperience() + getExp(r.getLevel(), enemyLevel);
+		if (exp > r.getLevel() * 100)
+		{
+			exp = 0;
+			r.setLevel(r.getLevel()+1);
+			r.setHp(r.getHp()+25);
+		}
+		r.setExperience(exp);
+		u.setRobot(r);
+		return u;
+	}
+	
+	protected Integer getExp(Integer level, Integer enemyLevel)
+	{
+		return level * enemyLevel;
+	}
 }

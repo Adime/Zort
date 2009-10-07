@@ -4,7 +4,6 @@
 	<mx:Metadata>
 		[Event(name="skillStart",type="br.com.zort.event.SkillEvent")]
 		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
-		[Event(name="skillDone",type="br.com.zort.event.SkillEvent")]
 		[Event(name="endGame", type="flash.events.Event")]
 	</mx:Metadata>
 	<mx:Script>
@@ -49,12 +48,28 @@
 
 			public function onSkillDone(event:SkillEvent):void
 			{
+				var skillType:String = event.skill.type;
+
+				if(skillType = "Heal")
+				{
+					var nHP:int = currentHP + event.skill.value;
+					if(nHP > maxHP)
+					{
+						nHP = maxHP;
+					}
+					currentHP = nHP;
+				}
+
 				dispatchEvent(event);
 			}
 
 			public function calculateDamage(event:SkillEvent, enemy:Robot):void
 			{
-				var att:int = ((enemy.attack + event.skill.attack) * enemy.level) / 10
+				if(event.skill.type != "Attack")
+				{
+					return;
+				}
+				var att:int = ((enemy.attack + event.skill.value) * enemy.level) / 10
 				var def:int = (_robot.defense * _robot.level) / 7;
 				var dano:int = att - def;
 

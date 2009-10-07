@@ -10,6 +10,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.assets.Assets;
 			import br.com.zort.model.User;
 			import br.com.zort.service.UserService;
 			import br.com.zort.view.battle.BattleEndMessage;
@@ -359,7 +360,10 @@
 
 			private function updateUser(event:ResultEvent):void
 			{
-				loginView.loggedUser = User(event.result);
+				var u:User = User(event.result);
+				u.person.newId = u.id;
+				u.person.newName = u.nome;
+				loginView.loggedUser = u;
 			}
 
 			private function onFinishedBattle(event:Event):void
@@ -383,14 +387,14 @@
 		LOGGEDOUT="onLoggedOut(event)" PRIVATEMESSAGE="onMessagingReceive(event)"
 		BATTLEREQUEST="onBattleRequest(event)" BATTLEACCEPTED="onBattleAccepted(event)"
 		BATTLEFIELDSKILLSTART="onEnemySkillStart(event)"/>
-	<mx:ViewStack id="vs" height="600" width="900">
+	<mx:ViewStack id="vs" height="430" width="900">
 		<mx:Canvas height="100%" width="100%" hideEffect="{hideEffect}">
 			<login:Login id="loginView" Login="onLogin()"/>
 		</mx:Canvas>
 		<mx:VBox height="100%" width="100%" horizontalAlign="center" verticalAlign="middle"
 			hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<mx:Canvas id="container" height="420" width="100%">
-				<map:MapHolder id="holder" height="100%" width="100%" borderStyle="solid"
+				<map:MapHolder id="holder" height="100%" width="100%"
 					creationComplete="mapCreated();" teleport="onTeleportJoin(event)"
 					charDance="onCharDance(event)" charMove="onCharMove(event)"
 					charInitialize="onCharMove(event)" battle="onBattle(event)"/>
@@ -400,16 +404,21 @@
 					y="{container.height-200-3}" backgroundAlpha="0.5"
 					typeText="onTypedText(event)"/>
 				<mx:HBox horizontalAlign="right" right="5" top="5">
-					<mx:Button label="Loja"
-						click="addStoreList()"/>
-					<mx:Button label="Robo"
-						click="addRobotList()"/>
-					<mx:Button label="itens"
-						click="addItemList()"/>
-					<mx:Button label="amigos"
-						click="addUserList()"/>
+					<mx:Image height="32" source="{Assets.cart}" toolTip="Loja" width="32"
+						click="addStoreList()" useHandCursor="true" buttonMode="true"/>
+					<mx:Image height="32" source="{Assets.robot}" toolTip="Robô" width="32"
+						click="addRobotList()" useHandCursor="true" buttonMode="true"/>
+					<mx:Image height="32" source="{Assets.bag}" toolTip="Mochila" width="32"
+						click="addItemList()" useHandCursor="true" buttonMode="true"/>
+					<mx:Image height="32" source="{Assets.friends}" toolTip="Amigos" width="32"
+						click="addUserList()" useHandCursor="true" buttonMode="true"/>
 				</mx:HBox>
-				<mx:Label text="$ {loginView.loggedUser.money}" color="#FFFFFF" left="5" top="5"/>
+				<mx:HBox backgroundAlpha="0.3" backgroundColor="0x000000" borderStyle="solid"
+					borderThickness="0" cornerRadius="4" left="5" paddingBottom="5" paddingLeft="5"
+					paddingRight="5" paddingTop="5" top="5">
+					<mx:Image height="20" source="{Assets.coin}" width="20"/>
+					<mx:Label text="{loginView.loggedUser.money}" color="#FFFFFF"/>
+				</mx:HBox>
 			</mx:Canvas>
 		</mx:VBox>
 		<mx:HBox height="420" width="100%" horizontalAlign="center" verticalAlign="middle"

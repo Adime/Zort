@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" backgroundAlpha="0.3"
+	backgroundColor="0x000000" borderStyle="solid" borderThickness="1" cornerRadius="5"
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
+	<mx:Script>
+		<![CDATA[
+			private var _text:String;
+
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(v:String):void
+			{
+				_text = v;
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="{text}" width="100%" color="0xFFFFFF" textAlign="center"/>
+</mx:Canvas>

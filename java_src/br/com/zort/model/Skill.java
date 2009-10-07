@@ -17,8 +17,8 @@ public class Skill {
 	private String description;
 	private Integer castTime;
 	private Integer delayTime;
-	private Integer attack;
-	private Integer defense;
+	private String type;
+	private Integer value;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "robot_id")
@@ -64,27 +64,27 @@ public class Skill {
 		this.delayTime = delayTime;
 	}
 
-	public Integer getAttack() {
-		return attack;
-	}
-
-	public void setAttack(Integer attack) {
-		this.attack = attack;
-	}
-
-	public Integer getDefense() {
-		return defense;
-	}
-
-	public void setDefense(Integer defense) {
-		this.defense = defense;
-	}
-
 	public Robot getRobot() {
 		return robot;
 	}
 
 	public void setRobot(Robot robot) {
 		this.robot = robot;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Integer getValue() {
+		return value;
+	}
+
+	public void setValue(Integer value) {
+		this.value = value;
 	}
 }

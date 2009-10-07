@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" clipContent="false">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" clipContent="false"
+	xmlns:char="br.com.zort.char.*">
 
 	<mx:Script>
 		<![CDATA[
 			import br.com.zort.model.Person;
 			import br.com.zort.assets.Assets;
 
+			[Bindable]
 			private var _person:Person;
 			private var timer:Timer = new Timer(2000, 1);
 
@@ -68,6 +70,9 @@
 	</mx:Script>
 	<mx:Image id="image" height="100%" source="{source}" width="100%"
 		maintainAspectRatio="false"/>
-	<mx:Text id="charText" y="{-charText.height}" hideEffect="fade" showEffect="fade"
+	<char:CharBalloon id="charText" height="75" width="100" y="{-charText.height}"
+		horizontalCenter="0" hideEffect="fade" showEffect="fade"
 		visible="false"/>
+	<char:CharName id="charName" text="{_person.newName}" bottom="-12" horizontalCenter="0"
+		visible="{_person.newName}"/>
 </mx:Canvas>

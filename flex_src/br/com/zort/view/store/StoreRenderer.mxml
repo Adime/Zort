@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:item="br.com.zort.view.item.*">
+	<mx:Metadata>
+		[Event(name="compra")]
+	</mx:Metadata>
+	<mx:Style>
+		.small
+		{
+			fontSize: 8;
+		}
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import br.com.zort.model.Item;
+			[Bindable]
+			private var item:Item;
+
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(value != null && value is Item)
+				{
+					item = Item(value);
+				}
+			}
+
+			private function buyItem():void
+			{
+				dispatchEvent(new Event("compra"));
+			}
+
+			public function getItem():Item
+			{
+				return item;
+			}
+		]]>
+	</mx:Script>
+	<item:ItemHolder height="100%" width="100%"
+		injectData="{item}"/>
+	<mx:Button label="Comprar ${data.price}" styleName="small" bottom="5" horizontalCenter="0"
+		click="buyItem()"/>
+</mx:Canvas>

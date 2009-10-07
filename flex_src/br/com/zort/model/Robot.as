@@ -11,7 +11,9 @@ package br.com.zort.model
 		public var id:int;
 		public var hp:int;
 		public var level:int;
+		public var experience:int;
 		public var image:String;
+		public var nome:String;
 
 		public var head:Item;
 		public var body:Item;

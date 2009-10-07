@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
-	<mx:Image height="100%" source="{Assets.getTileImage(data.image)}" toolTip="lala" width="100%"
+	<mx:Image height="80%" source="{Assets.getItemImage(data.image)}" toolTip="lala" width="80%"
+		horizontalAlign="center" horizontalCenter="0" verticalAlign="middle" verticalCenter="0"
 		toolTipCreate="createCustomTip(data.name,data.type.nome,data.defense,data.attack,event)"/>
 	<mx:Script>
 		<![CDATA[

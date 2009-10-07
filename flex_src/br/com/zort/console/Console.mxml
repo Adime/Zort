@@ -7,6 +7,7 @@
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.assets.Assets;
 			import br.com.zort.model.Person;
 			import br.com.zort.console.event.ConsoleEvent;
 			import mx.collections.ArrayCollection;
@@ -35,10 +36,14 @@
 			}
 		]]>
 	</mx:Script>
-	<mx:Button label="close/open"
+	<mx:Button height="10" toolTip="Abrir/Fechar"
 		click="openClose()"/>
 	<console:ListUpsidedown id="lstConsole" dataProvider="{consoleProvider}" height="100%"
 		labelField="label" width="100%"/>
-	<mx:TextInput id="txtConsole" maxChars="40" width="100%"
-		enter="enterConsole()"/>
+	<mx:HBox width="100%">
+		<mx:Image height="15" source="{Assets.msg}" toolTip="Nova mensagem" width="15"
+			verticalCenter="0"/>
+		<mx:TextInput id="txtConsole" maxChars="40" width="100%"
+			enter="enterConsole()"/>
+	</mx:HBox>
 </mx:Box>

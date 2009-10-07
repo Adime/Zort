@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" horizontalAlign="center"
-	showCloseButton="true" title="Robô" xmlns:local="*" xmlns:item="br.com.zort.view.item.*">
+	showCloseButton="true" title="Robô{robotName!=''?' - ' + robotName:''}" xmlns:local="*"
+	xmlns:item="br.com.zort.view.item.*" xmlns:controls="br.com.zort.view.controls.*">
 	<mx:Script>
 		<![CDATA[
 			import br.com.zort.view.item.ItemHolder;
@@ -30,11 +31,23 @@
 			[Bindable]
 			private var level:int = 0;
 
+			[Bindable]
+			private var hp:int = 0;
+
+			[Bindable]
+			private var robotName:String = "";
+
+			[Bindable]
+			private var experience:int = 0;
+
 			public function set robot(v:Robot):void
 			{
 				_robot = v;
 				calculateDEFATT(_robot);
 				level = _robot.level;
+				hp = _robot.hp;
+				experience = _robot.experience;
+				robotName = _robot.nome;
 				updateList(_robot);
 			}
 
@@ -127,15 +140,22 @@
 		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Perna')"/>
 	<item:ItemHolder id="botas"
 		dragDrop="onDragDrop(event)" dragEnter="onDragEnter(event, 'Botas')"/>
-	<mx:Form>
-		<mx:FormItem label="Level:" verticalGap="0">
+	<mx:Form width="100%" verticalGap="0">
+		<mx:FormItem label="Level:" width="100%" verticalGap="0">
 			<mx:Label styleName="vermelho" text="{level}"/>
 		</mx:FormItem>
-		<mx:FormItem label="Defesa:" verticalGap="0">
+		<mx:FormItem label="HP:" width="100%" verticalGap="0">
+			<mx:Label styleName="vermelho" text="{hp}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Defesa:" width="100%" verticalGap="0">
 			<mx:Label styleName="vermelho" text="{defesa}"/>
 		</mx:FormItem>
-		<mx:FormItem label="Ataque:" verticalGap="0">
+		<mx:FormItem label="Ataque:" width="100%" verticalGap="0">
 			<mx:Label styleName="vermelho" text="{ataque}"/>
+		</mx:FormItem>
+		<mx:FormItem label="Experiencia:" width="100%" verticalGap="0">
+			<controls:ColorProgressBar height="17" text="{experience}/{level*100}" width="100%"
+				progress="{experience/(level)}"/>
 		</mx:FormItem>
 	</mx:Form>
 </mx:TitleWindow>

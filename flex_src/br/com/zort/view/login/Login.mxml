@@ -7,6 +7,7 @@
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.model.Robot;
 			import mx.controls.Alert;
 			import br.com.zort.service.UserService;
 			import br.com.zort.model.User;
@@ -43,6 +44,11 @@
 				user.password = txtPassword.text;
 				user.person = Person(cbPerson.selectedItem);
 
+				var r:Robot = Robot(cbRobot.selectedItem);
+				r.nome = txtRobo.text;
+
+				user.robot = r;
+
 				new UserService(saveUserResult).saveUser(user);
 			}
 
@@ -75,7 +81,7 @@
 	</mx:Script>
 	<mx:transitions>
 		<mx:Transition fromState="login" toState="cadastro">
-			<mx:Resize heightTo="280" widthTo="410" target="{this}"/>
+			<mx:Resize heightTo="280" widthTo="560" target="{this}"/>
 		</mx:Transition>
 		<mx:Transition fromState="cadastro" toState="login">
 			<mx:Resize heightTo="230" widthTo="310" target="{this}"/>
@@ -129,6 +135,9 @@
 				<mx:FormItem label="Email:">
 					<mx:TextInput id="txtEmail"/>
 				</mx:FormItem>
+				<mx:FormItem label="Nome do Robo:">
+					<mx:TextInput id="txtRobo"/>
+				</mx:FormItem>
 				<mx:HBox>
 					<mx:Button label="Voltar"
 						click="this.currentState='login'"/>
@@ -141,6 +150,9 @@
 			<mx:ComboBox id="cbPerson" dataProvider="{personProvider}" labelField="name"/>
 			<char:Char height="80" width="80"
 				person="{Person(cbPerson.selectedItem)}"/>
+		</mx:VBox>
+		<mx:VBox>
+			<mx:ComboBox id="cbRobot" dataProvider="{RobotList.generateRobots()}" labelField="image"/>
 		</mx:VBox>
 	</mx:HBox>
 </mx:TitleWindow>

@@ -12,14 +12,14 @@ package br.com.zort.model
 		public var description:String;
 		public var castTime:int;
 		public var delayTime:int;
-		public var attack:int;
-		public var defense:int;
+		public var type:String;
+		public var value:int;
 
 		public var robot:Robot;
 
 		public function generateProtocol():String
 		{
-			return StringHelper.parseIt(getClassName(), this.id, name, description, castTime, delayTime, attack, defense);
+			return StringHelper.parseIt(getClassName(), this.id, name, description, castTime, delayTime, type, value);
 		}
 
 		public function fillFromProtocol(protocol:String):*
@@ -31,8 +31,8 @@ package br.com.zort.model
 			this.description = array[3];
 			this.castTime = array[4];
 			this.delayTime = array[5];
-			this.attack = array[6];
-			this.defense = array[7];
+			this.type = array[6];
+			this.value = array[7];
 
 			return this;
 		}

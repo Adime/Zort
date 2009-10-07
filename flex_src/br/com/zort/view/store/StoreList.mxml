@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
 	creationComplete="onCreationComplete()" title="Loja" showCloseButton="true" xmlns:local="*"
-	xmlns:item="br.com.zort.view.item.*">
+	xmlns:item="br.com.zort.view.item.*" xmlns:store="br.com.zort.view.store.*">
 	<mx:Script>
 		<![CDATA[
 			import mx.controls.Alert;
@@ -51,6 +51,12 @@
 				user.money -= itemhold.price;
 				Alert.show("Item comprado!", "Loja");
 			}
+
+			public function buy(event:Event):void
+			{
+				var i:Item = StoreRenderer(event.currentTarget).getItem();
+				buyItem(i);
+			}
 		]]>
 	</mx:Script>
 	<mx:List dataProvider="{dataProvider}" height="100%" selectable="false" width="100%">
@@ -71,3 +77,7 @@
 		</mx:itemRenderer>
 	</mx:List>
 </mx:TitleWindow>
+
+<!--
+	 <store:StoreRenderer compra="outerDocument.buy(event)"/>
+-->

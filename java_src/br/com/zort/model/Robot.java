@@ -17,7 +17,9 @@ public class Robot {
 	private Integer id;
 	private Integer hp;
 	private Integer level;
+	private Integer experience;
 	
+	private String nome;
 	private String image;
 	
 	@OneToOne
@@ -41,7 +43,8 @@ public class Robot {
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		if (id != 0)
+			this.id = id;
 	}
 
 	public Integer getHp() {
@@ -122,6 +125,22 @@ public class Robot {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Integer getExperience() {
+		return experience;
+	}
+
+	public void setExperience(Integer experience) {
+		this.experience = experience;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	
