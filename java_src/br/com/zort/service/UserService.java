@@ -18,7 +18,7 @@ import br.com.zort.model.User;
 import br.com.zort.service.interfaces.IUserService;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 	
 	@Autowired
 	private UserDAO userDAO;
@@ -113,6 +113,11 @@ public class UserService implements IUserService{
 		
 		itemDAO.saveOrUpdate(i);
 		userDAO.addOrUpdate(u);
+	}
+	public void retrieveItem(User u, Item i)
+	{
+		i.setUser(u);
+		itemDAO.saveOrUpdate(i);
 	}
 	public void removeItemFromUser(Item i)
 	{

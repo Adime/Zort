@@ -75,11 +75,15 @@
 			private function onDragDrop(event:DragEvent):void
 			{
 				var item:Item = Item(event.dragSource.dataForFormat("items")[0]);
+				item.user = user;
 				var itemHolder:ItemHolder = ItemHolder(event.currentTarget);
 				CollectionsPersistence.items.removeItemAt(CollectionsPersistence.items.getItemIndex(item));
 				if(itemHolder.data != null)
 				{
-					CollectionsPersistence.items.addItem(itemHolder.data);
+					var itemRemoved:Item = Item(itemHolder.data);
+					itemRemoved.user = user;
+					CollectionsPersistence.items.addItem(itemRemoved);
+					new UserService().retrieveItem(itemRemoved.user, itemRemoved);
 				}
 				itemHolder.data = item;
 

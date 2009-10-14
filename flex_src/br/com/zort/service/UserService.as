@@ -106,6 +106,16 @@ package br.com.zort.service
 			doCallBack(event);
 		}
 
+		public function retrieveItem(u:User, i:Item):void
+		{
+			service.retrieveItem(u, i);
+		}
+
+		public function retrieveItemResult(event:ResultEvent):void
+		{
+			doCallBack(event);
+		}
+
 		public function doCallBack(event:ResultEvent):void
 		{
 			if(this.callbackFuncton != null)

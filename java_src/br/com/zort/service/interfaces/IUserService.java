@@ -37,4 +37,7 @@ public interface IUserService {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	User setUserLose(User u, Integer money);
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	void retrieveItem(User u, Item i);
 }

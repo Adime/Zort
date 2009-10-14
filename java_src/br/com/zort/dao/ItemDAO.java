@@ -30,6 +30,7 @@ public class ItemDAO extends BaseHibernateDAO<Item> {
 	{
 		DetachedCriteria dc = DetachedCriteria.forClass(Item.class);
 		dc.add(Restrictions.isNull("user"));
+		dc.add(Restrictions.eq("forSale", 1));
 		
 		return (List<Item>) getHibernateTemplate().findByCriteria(dc);
 	}

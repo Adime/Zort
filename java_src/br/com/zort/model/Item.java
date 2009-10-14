@@ -22,6 +22,7 @@ public class Item {
 	private Integer defense;
 	private Integer attack;
 	private Integer price;
+	private Integer forSale;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -86,5 +87,12 @@ public class Item {
 	{
 		this.id = null;
 	}
+	public Integer getForSale() {
+		return forSale;
+	}
+	public void setForSale(Integer forSale) {
+		this.forSale = forSale;
+	}
+	
 	
 }
