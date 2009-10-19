@@ -39,7 +39,7 @@
 	<mx:Button height="10" toolTip="Abrir/Fechar"
 		click="openClose()"/>
 	<console:ListUpsidedown id="lstConsole" dataProvider="{consoleProvider}" height="100%"
-		labelField="label" width="100%"/>
+		labelField="label" width="100%" backgroundAlpha="0.5"/>
 	<mx:HBox width="100%">
 		<mx:Image height="15" source="{Assets.msg}" toolTip="Nova mensagem" width="15"
 			verticalCenter="0"/>
