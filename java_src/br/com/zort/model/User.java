@@ -22,6 +22,8 @@ public class User implements Serializable {
 	private String password;
 	private String nome;
 	private String email;
+	private Integer credits;
+	private String cellphone;
 	
 	@OneToOne
 	private Person person;
@@ -125,4 +127,21 @@ public class User implements Serializable {
 	public void setLoses(Integer loses) {
 		this.loses = loses;
 	}
+
+	public Integer getCredits() {
+		return credits;
+	}
+
+	public void setCredits(Integer credits) {
+		this.credits = credits;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+	
 }

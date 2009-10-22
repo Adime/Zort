@@ -16,6 +16,7 @@ import br.com.zort.model.Robot;
 import br.com.zort.model.Skill;
 import br.com.zort.model.User;
 import br.com.zort.service.interfaces.IUserService;
+import br.com.zort.sms.SMSSender;
 
 @Service
 public class UserService implements IUserService {
@@ -45,6 +46,7 @@ public class UserService implements IUserService {
 	public void saveUser(User user) {
 		user.setRobot(updateRobot(user.getRobot()));
 		user.setMoney(1000);
+		user.setCredits(0);
 		user = userDAO.addOrUpdate(user);
 		createSkills(user);
 	}
@@ -161,5 +163,21 @@ public class UserService implements IUserService {
 	protected Integer getExp(Integer level, Integer enemyLevel)
 	{
 		return level * enemyLevel;
+	}
+
+	public String enviaSMS(User u, String destin, String message) throws Exception {
+		User userDestino = userDAO.getUserByNome(destin);
+		if (userDestino == null)
+		{
+			return "Nome de usuário não encontrado";
+		}
+		else
+		{
+			//Envia sms
+			String m = "ZORT - " + u.getNome() + ": " + message;
+			//SMSSender.send(userDestino.getCellphone(), m);
+			userDAO.updateCredits(u.getCredits() - 1, u.getId());
+			return "SMS enviado!";
+		}
 	}
 }

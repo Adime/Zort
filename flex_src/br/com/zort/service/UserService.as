@@ -116,6 +116,18 @@ package br.com.zort.service
 			doCallBack(event);
 		}
 
+		public function enviaSMS(u:User, destin:String, msg:String):void
+		{
+			service.showBusyCursor = true;
+			service.enviaSMS(u, destin, msg);
+		}
+
+		public function enviaSMSResult(event:ResultEvent):void
+		{
+			service.showBusyCursor = false;
+			doCallBack(event);
+		}
+
 		public function doCallBack(event:ResultEvent):void
 		{
 			if(this.callbackFuncton != null)

@@ -40,4 +40,7 @@ public interface IUserService {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	void retrieveItem(User u, Item i);
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	String enviaSMS(User u, String destin, String message) throws Exception;
 }

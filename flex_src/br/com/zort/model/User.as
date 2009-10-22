@@ -11,6 +11,8 @@ package br.com.zort.model
 		public var password:String;
 		public var nome:String;
 		public var email:String;
+		public var credits:int;
+		public var cellphone:String;
 
 		public var person:Person;
 

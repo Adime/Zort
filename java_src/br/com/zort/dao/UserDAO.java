@@ -1,5 +1,6 @@
 package br.com.zort.dao;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -32,5 +33,21 @@ public class UserDAO extends BaseHibernateDAO<User> {
 		User u = (User) DataAccessUtils.uniqueResult(getHibernateTemplate().findByCriteria(dc));
 		
 		return u;
+	}
+	public User getUserByNome(String nome)
+	{
+		DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+		dc.add(Restrictions.eq("nome", nome));
+		
+		User u = (User) DataAccessUtils.uniqueResult(getHibernateTemplate().findByCriteria(dc));
+		
+		return u;
+	}
+	public void updateCredits(Integer credits, Integer userId)
+	{
+		Query delSearchResultItemsQuery = getSession().createQuery("update " + User.class.getName() + " set credits = ? where id = ?");
+		delSearchResultItemsQuery.setInteger( 0, credits);
+		delSearchResultItemsQuery.setInteger( 1, userId);
+		delSearchResultItemsQuery.executeUpdate();
 	}
 }

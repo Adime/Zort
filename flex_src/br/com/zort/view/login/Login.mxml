@@ -43,6 +43,7 @@
 				user.nome = txtNome.text;
 				user.password = txtPassword.text;
 				user.person = Person(cbPerson.selectedItem);
+				user.cellphone = txtPefix.text + txtNumber.text;
 
 				var r:Robot = Robot(cbRobot.selectedItem);
 				r.nome = txtRobo.text;
@@ -137,6 +138,12 @@
 				</mx:FormItem>
 				<mx:FormItem label="Nome do Robo:">
 					<mx:TextInput id="txtRobo"/>
+				</mx:FormItem>
+				<mx:FormItem direction="horizontal" label="Celular:">
+					<mx:TextInput id="txtPefix" maxChars="2" width="30"
+						restrict="0-9"/>
+					<mx:TextInput id="txtNumber" maxChars="8"
+						restrict="0-9"/>
 				</mx:FormItem>
 				<mx:HBox>
 					<mx:Button label="Voltar"

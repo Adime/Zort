@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="330" layout="vertical" width="300"
+	title="Mensagem para Celular" showCloseButton="true">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import br.com.zort.service.UserService;
+			import br.com.zort.model.User;
+
+			[Bindable]
+			public var user:User;
+
+			private function enviarClick():void
+			{
+				btEnviar.enabled = false;
+				new UserService(enviaSMSReturn).enviaSMS(user, txtDestin.text, txtMsg.text);
+			}
+
+			private function enviaSMSReturn(event:ResultEvent):void
+			{
+				btEnviar.enabled = true;
+				if(event.result == "SMS enviado!")
+				{
+					user.credits = user.credits - 1;
+				}
+				Alert.show(event.result.toString(), "SMS");
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Label text="Total de Crédito: {user.credits}"/>
+	<mx:Label text="Custo de Envio de SMS: 1 crédito."/>
+	<mx:HRule width="100%"/>
+	<mx:Label text="Nome do destinatário:"/>
+	<mx:TextInput id="txtDestin" width="100%"/>
+	<mx:Label text="Mensagem:"/>
+	<mx:TextArea id="txtMsg" height="100%" maxChars="100" width="100%"/>
+	<mx:Button id="btEnviar" label="Enviar"
+		click="enviarClick()"/>
+</mx:TitleWindow>

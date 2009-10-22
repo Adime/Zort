@@ -6,6 +6,7 @@
 	xmlns:battle="br.com.zort.view.battle.*" xmlns:login="br.com.zort.view.login.*">
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.view.cellphone.CellphoneMessage;
 			import br.com.zort.assets.Assets;
 			import br.com.zort.model.User;
 			import br.com.zort.service.UserService;
@@ -50,6 +51,7 @@
 			private var popupStoreList:StoreList;
 			private var popupBet:BetTitleWindow;
 			private var popupBattleRequest:BattleRequestResponse;
+			private var popupMsgCell:CellphoneMessage;
 
 			[Bindable]
 			private var enemyRobot:Robot;
@@ -224,6 +226,17 @@
 				}
 			}
 
+			private function addCellphoneMessage():void
+			{
+				if(popupMsgCell == null)
+				{
+					popupMsgCell = CellphoneMessage(PopUpManager.createPopUp(this, CellphoneMessage));
+					popupMsgCell.x = holder.x + holder.width - popupMsgCell.width;
+					popupMsgCell.user = loginView.loggedUser;
+					popupMsgCell.addEventListener(CloseEvent.CLOSE, onCellphoneMsgClose);
+				}
+			}
+
 			private function onBattle(event:CharEvent):void
 			{
 				popupBet = BetTitleWindow(PopUpManager.createPopUp(this, BetTitleWindow, true));
@@ -279,6 +292,12 @@
 			{
 				PopUpManager.removePopUp(popupRobotList);
 				popupRobotList = null;
+			}
+
+			private function onCellphoneMsgClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(popupMsgCell);
+				popupMsgCell = null;
 			}
 
 			private function onStoreClose(event:CloseEvent):void
@@ -408,6 +427,8 @@
 						click="addItemList()" useHandCursor="true" buttonMode="true"/>
 					<mx:Image height="32" source="{Assets.friends}" toolTip="Amigos" width="32"
 						click="addUserList()" useHandCursor="true" buttonMode="true"/>
+					<mx:Image height="32" source="{Assets.cellphone}" toolTip="SMS" width="32"
+						click="addCellphoneMessage()" useHandCursor="true" buttonMode="true"/>
 				</mx:HBox>
 				<mx:HBox backgroundAlpha="0.3" backgroundColor="0x000000" borderStyle="solid"
 					borderThickness="0" cornerRadius="4" left="5" paddingBottom="5" paddingLeft="5"

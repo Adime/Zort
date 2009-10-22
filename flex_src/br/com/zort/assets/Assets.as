@@ -14,6 +14,9 @@ package br.com.zort.assets
 		[Embed(source="br/com/zort/assets/ico/friends.png")]
 		public static var friends:Class;
 
+		[Embed(source="br/com/zort/assets/ico/cellphone.png")]
+		public static var cellphone:Class;
+
 		[Embed(source="br/com/zort/assets/ico/bag.png")]
 		public static var bag:Class;
 
