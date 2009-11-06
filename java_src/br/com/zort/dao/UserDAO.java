@@ -43,6 +43,7 @@ public class UserDAO extends BaseHibernateDAO<User> {
 		
 		return u;
 	}
+	
 	public void updateCredits(Integer credits, Integer userId)
 	{
 		Query delSearchResultItemsQuery = getSession().createQuery("update " + User.class.getName() + " set credits = ? where id = ?");

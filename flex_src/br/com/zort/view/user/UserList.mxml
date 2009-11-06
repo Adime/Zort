@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
-	title="Usuários" showCloseButton="true">
+	title="Amigos" showCloseButton="true">
 	<mx:Metadata>
 		[Event(name="userClick", type="mx.events.DynamicEvent")]
 	</mx:Metadata>

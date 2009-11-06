@@ -25,7 +25,10 @@ public interface IUserService {
 	
 	@Transactional(readOnly = true)
 	List<Item> getItemsByUser(User u);
-	
+
+	@Transactional(readOnly = true)
+	Item getItemById(Integer id);
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	void buyItem(User u, Item i);
 	
@@ -43,4 +46,10 @@ public interface IUserService {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	String enviaSMS(User u, String destin, String message) throws Exception;
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	void sendItemToUser(Integer itemId, String userName);
+	
+	@Transactional(readOnly = true)
+	void sendMessage(User u, String destName, String msg);
 }

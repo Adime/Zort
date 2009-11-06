@@ -120,46 +120,49 @@
 			textAlign="center"
 			click="this.currentState = 'cadastro'"/>
 	</mx:VBox>
-	<mx:HBox includeInLayout="{!toogle}"
+	<mx:VBox includeInLayout="{!toogle}"
 		visible="{!toogle}">
-		<mx:VBox>
-			<mx:Form>
-				<mx:FormItem label="Login:">
-					<mx:TextInput id="txtLogin"/>
-				</mx:FormItem>
-				<mx:FormItem label="Senha:">
-					<mx:TextInput id="txtPassword" displayAsPassword="true"/>
-				</mx:FormItem>
-				<mx:FormItem label="Nome:">
-					<mx:TextInput id="txtNome"/>
-				</mx:FormItem>
-				<mx:FormItem label="Email:">
-					<mx:TextInput id="txtEmail"/>
-				</mx:FormItem>
-				<mx:FormItem label="Nome do Robo:">
-					<mx:TextInput id="txtRobo"/>
-				</mx:FormItem>
-				<mx:FormItem direction="horizontal" label="Celular:">
-					<mx:TextInput id="txtPefix" maxChars="2" width="30"
-						restrict="0-9"/>
-					<mx:TextInput id="txtNumber" maxChars="8"
-						restrict="0-9"/>
-				</mx:FormItem>
-				<mx:HBox>
-					<mx:Button label="Voltar"
-						click="this.currentState='login'"/>
-					<mx:Button label="Salvar"
-						click="saveUser();"/>
-				</mx:HBox>
-			</mx:Form>
-		</mx:VBox>
-		<mx:VBox>
-			<mx:ComboBox id="cbPerson" dataProvider="{personProvider}" labelField="name"/>
-			<char:Char height="80" width="80"
-				person="{Person(cbPerson.selectedItem)}"/>
-		</mx:VBox>
-		<mx:VBox>
-			<mx:ComboBox id="cbRobot" dataProvider="{RobotList.generateRobots()}" labelField="image"/>
-		</mx:VBox>
-	</mx:HBox>
+		<mx:HBox>
+			<mx:VBox>
+				<mx:Form>
+					<mx:FormItem label="Login:">
+						<mx:TextInput id="txtLogin"/>
+					</mx:FormItem>
+					<mx:FormItem label="Senha:">
+						<mx:TextInput id="txtPassword" displayAsPassword="true"/>
+					</mx:FormItem>
+					<mx:FormItem label="Nome:">
+						<mx:TextInput id="txtNome"/>
+					</mx:FormItem>
+					<mx:FormItem label="Email:">
+						<mx:TextInput id="txtEmail"/>
+					</mx:FormItem>
+					<mx:FormItem label="Nome do Robo:">
+						<mx:TextInput id="txtRobo"/>
+					</mx:FormItem>
+					<mx:FormItem direction="horizontal" label="Celular:">
+						<mx:TextInput id="txtPefix" maxChars="2" width="30"
+							restrict="0-9"/>
+						<mx:TextInput id="txtNumber" maxChars="8"
+							restrict="0-9"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:ComboBox id="cbPerson" dataProvider="{personProvider}" labelField="name"/>
+				<char:Char height="80" width="80"
+					person="{Person(cbPerson.selectedItem)}"/>
+			</mx:VBox>
+			<mx:VBox>
+				<mx:ComboBox id="cbRobot" dataProvider="{RobotList.generateRobots()}"
+					labelField="image"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HBox width="100%" horizontalAlign="right">
+			<mx:Button label="Voltar"
+				click="this.currentState='login'"/>
+			<mx:Button label="Salvar"
+				click="saveUser();"/>
+		</mx:HBox>
+	</mx:VBox>
 </mx:TitleWindow>

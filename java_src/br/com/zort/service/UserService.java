@@ -1,5 +1,11 @@
 package br.com.zort.service;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -175,9 +181,39 @@ public class UserService implements IUserService {
 		{
 			//Envia sms
 			String m = "ZORT - " + u.getNome() + ": " + message;
-			//SMSSender.send(userDestino.getCellphone(), m);
+			SMSSender.send(userDestino.getCellphone(), m);
 			userDAO.updateCredits(u.getCredits() - 1, u.getId());
 			return "SMS enviado!";
 		}
+	}
+
+	public Item getItemById(Integer id) {
+		return itemDAO.getItemById(id);
+	}
+
+	public void sendItemToUser(Integer itemId, String userName) {
+		User u = userDAO.getUserByNome(userName);
+		Item i = itemDAO.getItemById(itemId);
+		i.setUser(u);
+		itemDAO.updateItem(i);
+		
+	}
+
+	public void sendMessage(User u, String destName, String msg) {
+		String sample = "PRIVATEMESSAGE;$CHAR;1;char1_front;char1_back;char1_right;char1_left;a;13;$PRIVATEMESSAGE;@q teste;";
+		String fullmsg = "PRIVATEMESSAGE;$CHAR;" + u.getId() + ";1;1;1;1;" + u.getNome() + ";1;$PRIVATEMESSAGE;@" + destName + " " + msg + ";";
+		
+		try {
+			Socket s = new Socket("127.0.0.1",2443);
+			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+			out.writeChars(fullmsg);
+			out.close();
+			s.close();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

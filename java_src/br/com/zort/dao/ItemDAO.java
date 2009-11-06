@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 
 import br.com.zort.model.Item;
@@ -42,6 +43,14 @@ public class ItemDAO extends BaseHibernateDAO<Item> {
 		dc.add(Restrictions.eq("user", u));
 		
 		return (List<Item>) getHibernateTemplate().findByCriteria(dc); 
+	}
+	@SuppressWarnings("unchecked")
+	public Item getItemById(Integer id)
+	{
+		DetachedCriteria dc = DetachedCriteria.forClass(Item.class);
+		dc.add(Restrictions.eq("id", id));
+		
+		return (Item) DataAccessUtils.uniqueResult(getHibernateTemplate().findByCriteria(dc)); 
 	}
 	public void updateItem(Item i)
 	{
