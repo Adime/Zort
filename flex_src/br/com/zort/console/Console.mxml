@@ -34,6 +34,11 @@
 				var messageFinal:String = person.newName + ': ' + message;
 				consoleProvider.addItem({label: messageFinal});
 			}
+
+			public function addDirectlyMessage(message:String):void
+			{
+				consoleProvider.addItem({label: message});
+			}
 		]]>
 	</mx:Script>
 	<mx:Button height="10" toolTip="Abrir/Fechar"

@@ -6,6 +6,11 @@
 	xmlns:battle="br.com.zort.view.battle.*" xmlns:login="br.com.zort.view.login.*">
 	<mx:Script>
 		<![CDATA[
+			import mx.core.UIComponent;
+			import br.com.zort.view.controls.MessageBox;
+			import mx.core.Application;
+			import br.com.zort.model.MessageDTO;
+			import br.com.zort.service.MessageService;
 			import br.com.zort.view.cellphone.CellphoneMessage;
 			import br.com.zort.assets.Assets;
 			import br.com.zort.model.User;
@@ -166,6 +171,35 @@
 			{
 				vs.selectedIndex = 1;
 				message.connect();
+				var timer:Timer = new Timer(3000);
+				timer.addEventListener(TimerEvent.TIMER, onTimer);
+				timer.start();
+			}
+
+			private function onTimer(event:TimerEvent):void
+			{
+				new MessageService(onMessageResult).getMessageByUserName(loginView.loggedUser.nome);
+			}
+
+			private function onMessageResult(event:ResultEvent):void
+			{
+				var result:ArrayCollection = ArrayCollection(event.result);
+				for each(var message:MessageDTO in result)
+				{
+					console.addDirectlyMessage("[CELULAR] " + message.orig + ": " + message.message);
+					var dsp:DisplayObject = Application.application as DisplayObject;
+					var m:MessageBox = MessageBox(PopUpManager.createPopUp(dsp, MessageBox));
+					m.nome = message.dest;
+					m.message = message.message;
+					m.x = dsp.width - m.width;
+					m.y = dsp.height - m.height;
+					m.addEventListener(Event.CLOSE, onMessageBoxClosed);
+				}
+			}
+
+			private function onMessageBoxClosed(event:Event):void
+			{
+				PopUpManager.removePopUp(UIComponent(event.currentTarget));
 			}
 
 			private function mapCreated():void

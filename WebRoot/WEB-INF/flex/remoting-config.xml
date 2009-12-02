@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <service id="remoting-service" class="flex.messaging.services.RemotingService"
-messageTypes="flex.messaging.messages.RemotingMessage">
+	messageTypes="flex.messaging.messages.RemotingMessage">
 
 	<adapters>
 		<adapter-definition id="java-object"
 			class="flex.messaging.services.remoting.adapters.JavaAdapter"
-			default="true" />
+			default="true"/>
 	</adapters>
 
 	<default-channels>
-		<channel ref="my-amf" />
+		<channel ref="my-amf"/>
 	</default-channels>
-	
+
 	<destination id="mapService">
 		<properties>
 			<factory>spring</factory>
@@ -34,6 +34,12 @@ messageTypes="flex.messaging.messages.RemotingMessage">
 		<properties>
 			<factory>spring</factory>
 			<source>userService</source>
+		</properties>
+	</destination>
+	<destination id="messageService">
+		<properties>
+			<factory>spring</factory>
+			<source>messageService</source>
 		</properties>
 	</destination>
 </service>

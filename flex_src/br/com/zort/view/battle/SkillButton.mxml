@@ -67,6 +67,6 @@
 		<controls:ColorProgressBar id="pb" height="10" width="50%"
 			progress="100"/>
 		<mx:Label text="TC: {skill.castTime}" toolTip="Tempo para carregar."/>
-		<mx:Label text="TD: {skill.delayTime}" toolTip="Tempo para liberar a magia."/>
+		<mx:Label text="TE: {skill.delayTime}" toolTip="Tempo para liberar a magia."/>
 	</mx:VBox>
 </code:CanvasButton>

@@ -5,15 +5,12 @@
 
 	<mx:Style source="br/com/zort/assets/css/Main.css"/>
 
-	<mx:ToggleButtonBar dataProvider="{vs}" horizontalCenter="0"/>
-
 	<mx:ViewStack id="vs" height="100%" width="100%" backgroundAlpha="0.2">
-		<game:Inicial height="100%" label="Inicial" width="100%"/>
-		<mx:Canvas label="Sobre O Jogo"/>
-		<mx:Canvas height="100%" label="Jogar" width="100%" backgroundAlpha="0.1"
-			backgroundColor="0xFFFFFF">
+		<!--<game:Inicial height="100%" label="Inicial" width="100%"/>
+			 <mx:Canvas label="Sobre O Jogo"/>-->
+		<mx:Canvas height="100%" label="Jogar" width="100%">
 			<game:Game horizontalCenter="0" verticalCenter="0"/>
 		</mx:Canvas>
-		<mx:Canvas label="Compre Créditos"/>
+		<!--<mx:Canvas label="Compre Créditos"/>-->
 	</mx:ViewStack>
 </mx:Application>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" height="200" width="175"
+	backgroundColor="0x111111" borderStyle="solid" borderThickness="1" cornerRadius="8"
+	hideEffect="Fade" showEffect="Fade"
+	creationComplete="onCreationComplete()" showCloseButton="true">
+	<mx:Script>
+		<![CDATA[
+			var t:Timer = new Timer(3000);
+
+			[Bindable]
+			public var nome:String = "";
+
+			[Bindable]
+			public var message:String = "";
+
+			private function onCreationComplete():void
+			{
+				t.addEventListener(TimerEvent.TIMER, onTimer)
+				t.start();
+			}
+
+			private function onTimer(event:TimerEvent):void
+			{
+				t.stop();
+				dispatchEvent(new Event(Event.CLOSE));
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="[Celular] De: {nome}" width="100%" fontSize="14" fontWeight="bold"
+		textAlign="center"/>
+	<mx:Label height="100%" text="{message}" width="100%" textAlign="center"/>
+</mx:TitleWindow>

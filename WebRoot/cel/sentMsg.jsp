@@ -1,4 +1,5 @@
 <%@page import="br.com.zort.service.interfaces.IUserService"%>
+<%@page import="br.com.zort.service.interfaces.IMessageService"%>
 <%@page import="br.com.zort.util.Util"%>
 <%@page import="br.com.zort.model.User"%>
 <%@page import="br.com.zort.model.Item"%>
@@ -10,10 +11,11 @@
 	String login = (String) request.getSession().getAttribute("userName");
 	String pass = (String) request.getSession().getAttribute("password");
 	
+	IMessageService m = ((IMessageService) Util.getBean("messageService"));
 	IUserService us = ((IUserService) Util.getBean("userService"));
 	User u = us.getUserByLoginAndPass(login, pass);
 	
-	us.sendMessage(u, dest, msg);
+	m.addOrUpdate(dest,u.getNome(),msg);
 %>
 <!DOCTYPE html>
 <head>

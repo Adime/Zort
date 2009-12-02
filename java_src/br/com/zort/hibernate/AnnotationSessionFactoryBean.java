@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
 import br.com.zort.model.Item;
 import br.com.zort.model.Map;
+import br.com.zort.model.Message;
 import br.com.zort.model.Person;
 import br.com.zort.model.Robot;
 import br.com.zort.model.Skill;
@@ -63,5 +64,6 @@ public class AnnotationSessionFactoryBean extends LocalSessionFactoryBean {
 		conf.addAnnotatedClass(Robot.class);
 		conf.addAnnotatedClass(Skill.class);
 		conf.addAnnotatedClass(Item.class);
+		conf.addAnnotatedClass(Message.class);
 	}
 }
