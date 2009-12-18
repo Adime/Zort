@@ -11,10 +11,8 @@ package br.com.zort.view.login
 		public static function generateRobots():ArrayCollection
 		{
 			var arr:ArrayCollection = new ArrayCollection();
-			arr.addItem(generateRobot("image1"));
-			arr.addItem(generateRobot("image2"));
-			arr.addItem(generateRobot("image3"));
-			arr.addItem(generateRobot("image4"));
+			arr.addItem(generateRobot("robot1"));
+			arr.addItem(generateRobot("robot2"));
 
 			return arr;
 		}

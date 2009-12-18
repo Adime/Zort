@@ -57,7 +57,8 @@
 					{
 						image.addChild(c);
 					}
-					moveMap(map.getTeleportFrom(mapFrom));
+					//moveMap(map.getTeleportFrom(mapFrom));
+					moveMap(map.getTitle(10, 10));
 					mapFrom = map.id;
 				}
 			}
@@ -109,16 +110,16 @@
 					if(c == null)
 					{
 						var char:CharExternal = new CharExternal();
-						
+
 						char.height = map.squareSize;
 						char.width = map.squareSize;
 						char.person = person;
 						char.x = tileTo.x;
 						char.y = tileTo.y;
-						
+
 						//events
 						char.addEventListener(CharEvent.BATTLE, onBattle);
-						
+
 						personsCollection.addItem(char);
 						image.addChild(char);
 					}
@@ -263,6 +264,7 @@
 					mapTo = 0;
 				}
 			}
+
 			private function onBattle(event:CharEvent):void
 			{
 				dispatchEvent(event);

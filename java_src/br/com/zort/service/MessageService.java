@@ -1,5 +1,6 @@
 package br.com.zort.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,18 @@ public class MessageService implements IMessageService {
 	 */
 	public List<Message> getMessageByUserName(String userName)
 	{
-		List<Message> messages = messageDAO.getMessagesByUserName(userName);
+		List<Message> messages = new ArrayList<Message>(); 
 		
-		for (Message m : messages)
+		try {
+			messages = messageDAO.getMessagesByUserName(userName);
+			for (Message m : messages)
+			{
+				messageDAO.delete(m);
+			}
+		} 
+		catch (Exception e) 
 		{
-			messageDAO.delete(m);
+			
 		}
 		
 		return messages;

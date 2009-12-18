@@ -8,6 +8,7 @@
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.assets.Assets;
 			import br.com.zort.model.Skill;
 			import br.com.zort.event.SkillEvent;
 			import br.com.zort.model.Robot;
@@ -50,7 +51,7 @@
 			{
 				var skillType:String = event.skill.type;
 
-				if(skillType = "Heal")
+				if(skillType == "Heal")
 				{
 					var nHP:int = currentHP + event.skill.value;
 					if(nHP > maxHP)
@@ -109,7 +110,8 @@
 			fontWeight="bold" textAlign="center"/>
 		<mx:HBox width="100%">
 
-			<mx:Image id="img" height="100%" width="100%"/>
+			<mx:Image id="img" height="100%" source="{Assets.getRobotImage(robot.image)}"
+				width="100%" horizontalAlign="center" verticalAlign="middle"/>
 
 			<mx:Form width="100%">
 				<mx:FormItem label="Vida:">

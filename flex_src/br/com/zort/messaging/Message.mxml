@@ -16,6 +16,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import flexlib.scheduling.Timeline;
 			import br.com.zort.model.Skill;
 			import br.com.zort.model.Robot;
 			import br.com.zort.model.BattleRequest;
@@ -31,8 +32,8 @@
 			import br.com.zort.model.Map;
 
 			//const
-			private const IP_ADDRESS:String = "127.0.0.1";
-			//private const IP_ADDRESS:String = "192.168.0.140";
+			//private const IP_ADDRESS:String = "127.0.0.1";
+			private const IP_ADDRESS:String = "192.168.0.121";
 			private const PORT_ADDRESS:int = 2443;
 
 			//variable
@@ -72,6 +73,14 @@
 			}
 
 			public function sendLogged():void
+			{
+				var t:Timer = new Timer(3000);
+				t.addEventListener(TimerEvent.TIMER, onLogged);
+				t.start();
+				socket.send(MessageConst.LOGGEDIN + char.generateProtocol());
+			}
+
+			private function onLogged(event:TimerEvent):void
 			{
 				socket.send(MessageConst.LOGGEDIN + char.generateProtocol());
 			}

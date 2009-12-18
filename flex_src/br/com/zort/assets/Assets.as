@@ -53,5 +53,10 @@ package br.com.zort.assets
 			return "br/com/zort/assets/items/" + name + ".png";
 		}
 
+		public static function getRobotImage(name:String):String
+		{
+			return "br/com/zort/assets/robot/" + name + ".png";
+		}
+
 	}
 }

@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off"
 	layout="vertical" verticalScrollPolicy="off"
-	xmlns:game="br.com.zort.view.game.*">
+	pageTitle="Zort" xmlns:game="br.com.zort.view.game.*">
 
 	<mx:Style source="br/com/zort/assets/css/Main.css"/>
 
-	<mx:ViewStack id="vs" height="100%" width="100%" backgroundAlpha="0.2">
-		<!--<game:Inicial height="100%" label="Inicial" width="100%"/>
-			 <mx:Canvas label="Sobre O Jogo"/>-->
-		<mx:Canvas height="100%" label="Jogar" width="100%">
-			<game:Game horizontalCenter="0" verticalCenter="0"/>
-		</mx:Canvas>
-		<!--<mx:Canvas label="Compre Créditos"/>-->
-	</mx:ViewStack>
+	<mx:Canvas height="100%" label="Jogar" width="100%">
+		<game:Game horizontalCenter="0" verticalCenter="0"/>
+	</mx:Canvas>
 </mx:Application>

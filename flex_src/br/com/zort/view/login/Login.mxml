@@ -7,6 +7,7 @@
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import br.com.zort.assets.Assets;
 			import br.com.zort.model.Robot;
 			import mx.controls.Alert;
 			import br.com.zort.service.UserService;
@@ -156,6 +157,8 @@
 			<mx:VBox>
 				<mx:ComboBox id="cbRobot" dataProvider="{RobotList.generateRobots()}"
 					labelField="image"/>
+				<mx:Image height="80" source="{Assets.getRobotImage(cbRobot.selectedItem.image)}"
+					width="80"/>
 			</mx:VBox>
 		</mx:HBox>
 		<mx:HBox width="100%" horizontalAlign="right">
